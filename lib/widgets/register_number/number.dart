@@ -1,0 +1,103 @@
+import 'dart:async';
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../core/constants/cache_constants.dart';
+import '../date_today.dart';
+
+class Number extends StatefulWidget {
+  const Number({super.key});
+
+  @override
+  State<Number> createState() => _NumberState();
+}
+
+class _NumberState extends State<Number> {
+  late Future<int> futureNumber;
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+    futureNumber = getValue();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // Cancelar el temporizador al salir del widget
+    timer?.cancel();
+  }
+
+  Timer? timer;
+
+  void startTimer() {
+    timer = Timer.periodic(const Duration(minutes: 2), (timer) {
+      setValue();
+    });
+  }
+
+  Future<void> setValue() async {
+    final newNumber = Random().nextInt(888888888) + 111111111;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(codeCache, newNumber);
+    // Actualizar futureNumber solo si el widget está montado
+    if (mounted) {
+      futureNumber = getValue();
+      setState(() {});
+    }
+    // ignore: avoid_print
+    print(newNumber);
+  }
+
+  Future<int> getValue() async {
+    final prefs = await SharedPreferences.getInstance();
+    int? value = prefs.getInt(codeCache);
+    return value ?? 0;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const DateToday(),
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: FutureBuilder<int>(
+            future: futureNumber,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                int number = snapshot.data!;
+                return Text(
+                  number.toString(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                  ),
+                );
+              }
+            },
+          ),
+        ),
+        const Text(
+          'Número único de registro',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            height: 1,
+            fontSize: 40,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+}
