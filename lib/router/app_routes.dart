@@ -5,7 +5,8 @@ import '../screens/screens.dart';
 
 class AppRoutes {
   static const initialRout = HomeScreen();
-  // static const initialRout = TestScreen();
+  // static const initialRout = CheckAssistanceScreen();
+  // static const initialRout = CheckAssistanceScreen();
 
   static Map<String, Widget Function(BuildContext)> routes = {
     '/home': (BuildContext context) => const HomeScreen(),
@@ -15,7 +16,7 @@ class AppRoutes {
     '/registerNumber': (BuildContext context) => const RegisterNumberScreen(),
     '/checkAssistance': (BuildContext context) => const CheckAssistanceScreen(),
     '/qrScanner': (BuildContext context) =>  const QrScannerPage(),
-    // '/testPage': (BuildContext context) =>  const TestScreen(),
+    '/geolocate': (BuildContext context) =>  const GeolocateScreen(),
   };
 
   // ? para generar una ruta futura

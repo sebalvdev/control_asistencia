@@ -34,7 +34,8 @@ class _NumberState extends State<Number> {
   Timer? timer;
 
   void startTimer() {
-    timer = Timer.periodic(const Duration(minutes: 2), (timer) {
+    // timer = Timer.periodic(const Duration(minutes: 2), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 10), (timer) {
       setValue();
     });
   }
@@ -44,18 +45,24 @@ class _NumberState extends State<Number> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(codeCache, newNumber);
     // Actualizar futureNumber solo si el widget está montado
-    if (mounted) {
-      futureNumber = getValue();
-      setState(() {});
-    }
     // ignore: avoid_print
     print(newNumber);
+    if (mounted) {
+      setState(() {
+        futureNumber = getValue();
+      });
+    }
   }
 
   Future<int> getValue() async {
     final prefs = await SharedPreferences.getInstance();
     int? value = prefs.getInt(codeCache);
-    return value ?? 0;
+    if(value != null) {
+      return value;
+    } else {
+      setValue();
+    }
+    return getValue();
   }
 
   @override

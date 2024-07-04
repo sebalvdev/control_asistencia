@@ -3,6 +3,7 @@ import 'package:control_asistencia_2/theme_cubit.dart';
 import 'package:control_asistencia_2/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'injection_container.dart' as dependencies;
@@ -10,6 +11,7 @@ import 'injection_container.dart' as dependencies;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('es', null);
+  await Geolocator.requestPermission();
   await dependencies.init();
 
   runApp(

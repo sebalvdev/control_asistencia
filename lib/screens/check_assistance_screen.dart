@@ -2,14 +2,21 @@ import '../widgets/check_assistance/widgets.dart';
 import 'package:flutter/material.dart';
 
 class CheckAssistanceScreen extends StatefulWidget {
-  const CheckAssistanceScreen({super.key});
+  final bool condition; 
+  const CheckAssistanceScreen({super.key, this.condition = false});
 
   @override
   State<CheckAssistanceScreen> createState() => _CheckAssistanceScreenState();
 }
 
 class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
-  bool condition = true; 
+  late bool condition;
+
+  @override
+  void initState() {
+    super.initState();
+    condition = widget.condition; // Inicializa la variable con el valor recibido
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +33,7 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
-                child: Image.asset('assets/images/game.jpeg', // Ruta de tu logo
+                child: Image.asset('assets/images/icono.jpeg',
                     fit: BoxFit.contain,
                     height: AppBar().preferredSize.height),
               ),
@@ -53,8 +60,8 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
           onPressed: () {
             Navigator.pushNamed(context, '/qrScanner');
           },
-          backgroundColor: Colors.grey,
-          child: const Icon(Icons.camera_alt_outlined, color: Color.fromARGB(255, 255, 255, 255),),
+          // backgroundColor: Colors.grey,
+          child: const Icon(Icons.camera_alt_outlined),
         ));
   }
 }

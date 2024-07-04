@@ -26,7 +26,7 @@ class _RegisterNumberScreenState extends State<RegisterNumberScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
-                child: Image.asset('assets/images/game.jpeg', // Ruta de tu logo
+                child: Image.asset('assets/images/icono.jpeg', // Ruta de tu logo
                     fit: BoxFit.contain,
                     height: AppBar().preferredSize.height),
               ),
