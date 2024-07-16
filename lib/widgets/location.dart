@@ -54,6 +54,8 @@ class _LocationState extends State<Location> {
       Position position = await Geolocator.getCurrentPosition();
       // setState(() {
       // _locationMessage =
+      print("latitude: ${position.latitude}");
+      print("longitude: ${position.longitude}");
       return 'Ubicación: ${position.latitude}, ${position.longitude}';
       // });
     } catch (e) {
