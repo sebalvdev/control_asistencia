@@ -23,7 +23,7 @@ class LoadingScreen extends StatelessWidget {
           ElevatedButton(
             onPressed: () => Navigator.popAndPushNamed(context, '/firstLogin'),
             child: Image.asset(
-              'assets/images/icono.jpeg',
+              'assets/images/logo.jpg',
               scale: 4,
             ),
           ),

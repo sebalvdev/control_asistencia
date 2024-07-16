@@ -1,4 +1,4 @@
-import 'package:control_asistencia_2/widgets/register_number/number.dart';
+import 'package:control_asistencia_2/features/register/widgets/random_number.dart';
 import 'package:flutter/material.dart';
 
 
@@ -26,24 +26,15 @@ class _RegisterNumberScreenState extends State<RegisterNumberScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
-                child: Image.asset('assets/images/icono.jpeg', // Ruta de tu logo
+                child: Image.asset('assets/images/logo.jpg', // Ruta de tu logo
                     fit: BoxFit.contain,
                     height: AppBar().preferredSize.height),
               ),
             ],
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.replay),
-              onPressed: () {
-                // Acción para el botón de ajustes
-                setState(() {});
-              },
-            ),
-          ],
         ),
         body: const Center(
-          child: Number(),
+          child: RandomNumber(),
         )
         );
   }

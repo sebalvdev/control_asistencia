@@ -2,19 +2,20 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/constants/cache_constants.dart';
-import '../date_today.dart';
+import '../../../core/constants/cache_constants.dart';
+import '../../../widgets/date_today.dart';
 
-class Number extends StatefulWidget {
-  const Number({super.key});
+class RandomNumber extends StatefulWidget {
+  const RandomNumber({super.key});
 
   @override
-  State<Number> createState() => _NumberState();
+  State<RandomNumber> createState() => _RandomNumberState();
 }
 
-class _NumberState extends State<Number> {
+class _RandomNumberState extends State<RandomNumber> {
   late Future<int> futureNumber;
 
   @override

@@ -1,4 +1,4 @@
-import '../widgets/check_assistance/widgets.dart';
+import 'widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class CheckAssistanceScreen extends StatefulWidget {
@@ -33,7 +33,7 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
-                child: Image.asset('assets/images/icono.jpeg',
+                child: Image.asset('assets/images/logo.jpg',
                     fit: BoxFit.contain,
                     height: AppBar().preferredSize.height),
               ),
@@ -47,21 +47,22 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
               },
             ),
             IconButton(
-              icon: const Icon(Icons.replay),
+              icon: const Icon(Icons.camera_alt_outlined),
               onPressed: () {
                 // Acción para el botón de ajustes
+                Navigator.pushNamed(context, '/qrScanner');
               },
             ),
           ],
         ),
         body: condition ? const CompleteCheck() : const Nocheck(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/qrScanner');
-          },
-          // backgroundColor: Colors.grey,
-          child: const Icon(Icons.camera_alt_outlined),
-        ));
+        // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     Navigator.pushNamed(context, '/qrScanner');
+        //   },
+        //   child: const Icon(Icons.camera_alt_outlined),
+        // )
+    );
   }
 }
