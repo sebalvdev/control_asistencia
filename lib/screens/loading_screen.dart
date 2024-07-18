@@ -14,20 +14,26 @@ class LoadingScreen extends StatelessWidget {
             'assets/images/icono.jpeg',
             scale: 2,
           ),
-
-          Image.asset(
-            'assets/images/loading.gif',
-            // scale: 2,
+          // const SizedBox(height: 50,),
+          const Padding(
+            padding: EdgeInsets.all(60.0),
+            child: CircularProgressIndicator(),
           ),
+          // const SizedBox(height: 50,),
+
+          // Image.asset(
+          //   'assets/images/loading.gif',
+          //   // scale: 2,
+          // ),
 
           ElevatedButton(
-            onPressed: () => Navigator.popAndPushNamed(context, '/firstLogin'),
+            onPressed: () {},
+            // onPressed: () => Navigator.popAndPushNamed(context, '/firstLogin'),
             child: Image.asset(
               'assets/images/logo.jpg',
               scale: 4,
             ),
           ),
-          
         ],
       ),
     ));

@@ -1,4 +1,4 @@
-import 'package:control_asistencia_2/features/register/widgets/random_number.dart';
+import 'package:control_asistencia_2/features/register/widgets/number.dart';
 import 'package:flutter/material.dart';
 
 
@@ -33,8 +33,9 @@ class _RegisterNumberScreenState extends State<RegisterNumberScreen> {
             ],
           ),
         ),
-        body: const Center(
-          child: RandomNumber(),
+        body: Center(
+          // child: RandomNumber(),
+          child: Number(),
         )
         );
   }

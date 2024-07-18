@@ -8,7 +8,7 @@ class InLocation {
 }
 
 class DistanceCalculator {
-  // Radio de la Tierra en kilómetros
+  // Radio de la Tierra en metros
   static const double _earthRadiusKm = 6378.0;
 
   static double _degreesToRadians(double degrees) {

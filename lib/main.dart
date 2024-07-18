@@ -29,10 +29,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeCubit, ThemeMode>(
       builder: (context, themeMode) {
+        // const condition = false;
+
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Main',
+
+          // ignore: dead_code
+          // home: condition ? AppRoutes.registeredRout : AppRoutes.initialRout,
           home: AppRoutes.initialRout,
+
           routes: AppRoutes.routes,
           // ? para generar una ruta futura
           onGenerateRoute: AppRoutes.onGenerateRoute,

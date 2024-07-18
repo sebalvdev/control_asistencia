@@ -11,44 +11,50 @@ class AppTheme {
       labelStyle: TextStyle(color: black),
       iconColor: black
     ),
-    primaryColor: primary,
+    primaryColor: white,
     appBarTheme: const AppBarTheme(
-      color: primary,
-      foregroundColor: white,
-      titleTextStyle: TextStyle(color: white, fontSize: 20),
+      color: white,
+      foregroundColor: black,
+      titleTextStyle: TextStyle(color: black, fontSize: 20),
     ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: primary,
+      backgroundColor: white,
       foregroundColor: black,
     ),
     elevatedButtonTheme: const ElevatedButtonThemeData(
       style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(primary),
-        foregroundColor: WidgetStatePropertyAll(white),
+        backgroundColor: WidgetStatePropertyAll(white),
+        foregroundColor: WidgetStatePropertyAll(black),
       )
-    )
+    ),
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: black,
+    ),
   );
 
   static final ThemeData darkTheme = ThemeData.dark().copyWith(
     inputDecorationTheme: const InputDecorationTheme(
-      labelStyle: TextStyle(color: Colors.white),
-      iconColor: Colors.white
+      labelStyle: TextStyle(color: Colors.black),
+      iconColor: Colors.black
     ),
-    primaryColor: primary,
+    primaryColor: white,
     appBarTheme: const AppBarTheme(
-      color: primary,
-      foregroundColor: Colors.white,
-      titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+      color: white,
+      foregroundColor: Colors.black,
+      titleTextStyle: TextStyle(color: Colors.black, fontSize: 20),
     ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: primary,
-      foregroundColor: white,
+      backgroundColor: white,
+      foregroundColor: black,
     ),
     elevatedButtonTheme: const ElevatedButtonThemeData(
       style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(primary),
-        foregroundColor: WidgetStatePropertyAll(white),
+        backgroundColor: WidgetStatePropertyAll(white),
+        foregroundColor: WidgetStatePropertyAll(black),
       )
-    )
+    ),
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: white,
+    ),
   );
 }

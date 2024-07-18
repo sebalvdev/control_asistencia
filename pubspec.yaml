@@ -55,6 +55,10 @@ dependencies:
   # obtain location
   geolocator: ^12.0.0
   geolocator_android: 4.5.0
+  # obtain device info
+  device_info_plus: ^10.1.0
+  # connection with server
+  http: ^1.2.2
 
   
 dev_dependencies:

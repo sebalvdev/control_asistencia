@@ -43,13 +43,12 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
             IconButton(
               icon: const Icon(Icons.notifications),
               onPressed: () {
-                // Acción para el botón de búsqueda
+                Navigator.pushNamed(context, '/notify');
               },
             ),
             IconButton(
               icon: const Icon(Icons.camera_alt_outlined),
               onPressed: () {
-                // Acción para el botón de ajustes
                 Navigator.pushNamed(context, '/qrScanner');
               },
             ),
