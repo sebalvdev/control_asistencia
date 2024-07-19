@@ -6,19 +6,22 @@ import '../core/constants/cache_constants.dart';
 
 class Authenticate {
   
-  Future<bool> getData(String codeVerification) async {
-    String key = "https://jcvctechnology.com/asistenciaonline/api/";
-    String filename = "authenticate.php";
-    final url = Uri.parse(key + filename);
+  Future<bool> verifiCodeApi(String codeVerification) async {
+    final prefs = await SharedPreferences.getInstance();
+    final code = prefs.getString(serverCache);
 
-    final response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'code_verification': codeVerification,
-      }),
+    String key = "https://jcvctechnology.com/$code/api/authenticate.php";
+    final operation = "?authenticate=$codeVerification";
+    final url = Uri.parse(key + operation);
+
+    final response = await http.get(
+      url
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // },
+      // body: jsonEncode({
+      //   'code_verification': codeVerification,
+      // }),
     );
 
     if (response.statusCode == 200) {

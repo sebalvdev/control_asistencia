@@ -7,7 +7,7 @@ sealed class NotificationEvent extends Equatable {
   List<Object> get props => [];
 }
 class GetMessages extends NotificationEvent {
-  final List<MessageModel> messaages;
+  final List<Message> messaages;
 
   const GetMessages({required this.messaages});
 }

@@ -20,20 +20,28 @@ class LoadingScreen extends StatelessWidget {
             child: CircularProgressIndicator(),
           ),
           // const SizedBox(height: 50,),
-
-          // Image.asset(
-          //   'assets/images/loading.gif',
-          //   // scale: 2,
-          // ),
-
-          ElevatedButton(
-            onPressed: () {},
-            // onPressed: () => Navigator.popAndPushNamed(context, '/firstLogin'),
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 3.0),
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12.0),
+            ),
             child: Image.asset(
               'assets/images/logo.jpg',
               scale: 4,
             ),
           ),
+          
+
+          // ElevatedButton(
+          //   onPressed: () {},
+          //   // onPressed: () => Navigator.popAndPushNamed(context, '/firstLogin'),
+          //   child: Image.asset(
+          //     'assets/images/logo.jpg',
+          //     scale: 4,
+          //   ),
+          // ),
         ],
       ),
     ));

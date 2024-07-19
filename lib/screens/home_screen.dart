@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
 
   Future<bool> verifyCode() async{
     int code = await uniqueNumber.getValue();
-    bool verify = await authenticate.getData(code.toString());
+    bool verify = await authenticate.verifiCodeApi(code.toString());
     return verify;
   }
 }
