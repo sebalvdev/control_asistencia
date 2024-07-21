@@ -1,4 +1,4 @@
-import 'package:control_asistencia_2/features/check_assistance/widgets/current_time.dart';
+import 'package:control_asistencia_2/features/check_assistance/presentation/widgets/current_time.dart';
 import 'package:control_asistencia_2/widgets/location.dart';
 // import 'package:control_asistencia_2/widgets/date_today.dart';
 import 'package:flutter/material.dart';

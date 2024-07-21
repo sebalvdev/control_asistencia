@@ -2,29 +2,22 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../core/constants/cache_constants.dart';
+import '../constants/cache_constants.dart';
 
 class Authenticate {
   
   Future<bool> verifiCodeApi(String codeVerification) async {
     final prefs = await SharedPreferences.getInstance();
     final code = prefs.getString(serverCache);
+
     if(code == null){
       return false;
     }
+    
     String key = "https://jcvctechnology.com/$code/api/api.php";
     final operation = "?authenticate=$codeVerification";
     final url = Uri.parse(key + operation);
-
-    final response = await http.get(
-      url
-      // headers: {
-      //   'Content-Type': 'application/json',
-      // },
-      // body: jsonEncode({
-      //   'code_verification': codeVerification,
-      // }),
-    );
+    final response = await http.get(url);
 
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);

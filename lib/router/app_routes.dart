@@ -2,7 +2,7 @@ import 'package:control_asistencia_2/features/initializer/presentation/widgets/i
 import 'package:control_asistencia_2/features/qr_scanner/presentation/pages/qr_scanner_page.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/screens.dart';
+import 'screens/screens.dart';
 
 class AppRoutes {
   // static const initialRout = FirstLoginScreen();

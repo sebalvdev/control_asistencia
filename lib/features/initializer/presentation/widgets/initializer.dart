@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:control_asistencia_2/features/register/widgets/obtain_unique_number.dart';
+import 'package:control_asistencia_2/features/register/presentation/widgets/obtain_unique_number.dart';
 import 'package:control_asistencia_2/router/app_routes.dart';
-import 'package:control_asistencia_2/widgets/authenticate.dart';
+import 'package:control_asistencia_2/core/api_services/api.dart';
 
 class Initializer extends StatelessWidget {
   final UniqueNumber uniqueNumber = UniqueNumber();

@@ -4,9 +4,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../core/constants/cache_constants.dart';
+import '../constants/cache_constants.dart';
 
-class ApiService {
+class Notifications {
 
   Future<List> obtenerNotificaciones(String codigo) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

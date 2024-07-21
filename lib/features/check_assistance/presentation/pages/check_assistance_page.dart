@@ -1,8 +1,8 @@
-import '../../injection_container.dart';
-import '../../router/app_routes.dart';
-import '../../widgets/logo.dart';
-import 'widgets/exit_app.dart';
-import 'widgets/widgets.dart';
+import '../../../../injection_container.dart';
+import '../../../../router/app_routes.dart';
+import '../../../../core/api_services/api.dart';
+import '../widgets/exit_app.dart';
+import '../widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class CheckAssistanceScreen extends StatefulWidget {

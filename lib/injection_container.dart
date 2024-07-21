@@ -8,7 +8,7 @@ import 'features/qr_scanner/data/repositories/qr_scanner_repository_impl.dart';
 import 'features/qr_scanner/domain/repositories/qr_scanner_repository.dart';
 import 'features/qr_scanner/domain/usecases/verify_qr_code.dart';
 import 'features/qr_scanner/presentation/bloc/qr_scanner_bloc.dart';
-import 'widgets/logo.dart';
+import 'core/api_services/get_logo.dart';
 
 final sl = GetIt.instance;
 

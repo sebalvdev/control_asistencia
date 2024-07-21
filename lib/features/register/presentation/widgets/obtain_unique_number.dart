@@ -4,19 +4,16 @@ import 'dart:math';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../core/constants/cache_constants.dart';
+import '../../../../core/constants/cache_constants.dart';
 
 class UniqueNumber {
   Future<int> getDeviceDetails() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    // ignore: avoid_print
-    // print(androidInfo.fingerprint);
 
     int result = _convertHash(androidInfo.fingerprint);
-    
+    // guardar valor unico del dispositivo en cache
     setValue(result);
-    // print(await getValue());
 
     return result;
   }
@@ -46,6 +43,7 @@ class UniqueNumber {
     await prefs.setInt(codeCache, number);
   }
 
+  // obtener el valor unico del dispositivo de cache
   Future<int> getValue() async {
     final prefs = await SharedPreferences.getInstance();
     int? value = prefs.getInt(codeCache);

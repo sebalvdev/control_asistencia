@@ -1,4 +1,4 @@
-import 'package:control_asistencia_2/features/check_assistance/check_assistance_screen.dart';
+import 'package:control_asistencia_2/features/check_assistance/presentation/pages/check_assistance_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:audioplayers/audioplayers.dart';

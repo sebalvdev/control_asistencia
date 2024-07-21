@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../data/datasource/test.dart';
+import '../../../../core/api_services/api.dart';
 import '../widgets/chat_bubble.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
 
   Future<List<dynamic>> _loadNotifications() async {
-    final ApiService apiService = ApiService();
+    final Notifications notifications = Notifications();
     try {
-      final List<dynamic> data = await apiService.obtenerNotificaciones('892071544');
+      final List<dynamic> data = await notifications.obtenerNotificaciones('892071544');
       return data;
     } catch (e) {
       // ignore: avoid_print
@@ -33,13 +33,13 @@ class NotificationScreen extends StatelessWidget {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('No hay notificaciones'));
           } else {
-            final notifications = snapshot.data!;
+            final notify = snapshot.data!;
             return ListView.builder(
-              itemCount: notifications.length,
+              itemCount: notify.length,
               itemBuilder: (context, index) {
-                final notificacion = notifications[index];
+                final notificacion = notify[index];
                 return ChatBubble(
-                  header: (notificacion['user_id'] == '0') ? 'Para todos' : 'Para ti',
+                  header: (notificacion['user_id'] == '0') ? 'Para todos' : 'Solo para ti',
                   message: notificacion['message'] ?? 'No hay mensaje',
                   date: notificacion['date_time'] ?? DateTime.now().toString(),
                 );

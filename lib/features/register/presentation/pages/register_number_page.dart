@@ -1,9 +1,9 @@
-import 'package:control_asistencia_2/features/register/widgets/number.dart';
+import 'package:control_asistencia_2/features/register/presentation/widgets/number.dart';
 import 'package:flutter/material.dart';
-import '../../injection_container.dart';
-import '../../router/app_routes.dart';
-import '../../widgets/logo.dart';
-import 'widgets/exit_app.dart';
+import '../../../../injection_container.dart';
+import '../../../../router/app_routes.dart';
+import '../../../../core/api_services/api.dart';
+import '../widgets/exit_app.dart';
 
 class RegisterNumberScreen extends StatefulWidget {
   const RegisterNumberScreen({super.key});

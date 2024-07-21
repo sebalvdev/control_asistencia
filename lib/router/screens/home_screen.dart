@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:control_asistencia_2/features/register/widgets/obtain_unique_number.dart';
-import 'package:control_asistencia_2/widgets/authenticate.dart';
+import 'package:control_asistencia_2/features/register/presentation/widgets/obtain_unique_number.dart';
+import 'package:control_asistencia_2/core/api_services/authenticate.dart';
 import 'package:flutter/material.dart';
 import 'package:control_asistencia_2/theme_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
