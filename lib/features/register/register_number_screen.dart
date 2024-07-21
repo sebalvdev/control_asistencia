@@ -40,8 +40,8 @@ class _RegisterNumberScreenState extends State<RegisterNumberScreen> {
               leading: IconButton(
                 icon: const Icon(Icons.exit_to_app),
                 onPressed: () {
-                  Navigator.popAndPushNamed(context, '/checkAssistance');
-                  // exitApp();
+                  // Navigator.popAndPushNamed(context, '/checkAssistance');
+                  exitApp();
                 },
               ),
               title: Row(
@@ -56,6 +56,15 @@ class _RegisterNumberScreenState extends State<RegisterNumberScreen> {
                   ),
                 ],
               ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.refresh),
+                  onPressed: () {
+                    // Navigator.pushNamed(context, '/notify');
+                    Navigator.popAndPushNamed(context, '/initial');
+                  },
+                ),
+              ],
             ),
             body: Center(
               child: Number(),

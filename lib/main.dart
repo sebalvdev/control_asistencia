@@ -38,8 +38,8 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Main',
 
-          // home: Initializer(),
-          home: AppRoutes.initialRout,
+          home: Initializer(),
+          // home: AppRoutes.initialRout,
           routes: AppRoutes.routes,
           // ? para generar una ruta futura
           onGenerateRoute: AppRoutes.onGenerateRoute,

@@ -1,3 +1,4 @@
+import 'package:control_asistencia_2/features/initializer/presentation/widgets/initializer.dart';
 import 'package:control_asistencia_2/features/qr_scanner/presentation/pages/qr_scanner_page.dart';
 import 'package:flutter/material.dart';
 
@@ -5,7 +6,7 @@ import '../screens/screens.dart';
 
 class AppRoutes {
   // static const initialRout = FirstLoginScreen();
-  static const initialRout = NotificationScreen();
+  static const initialRout = RegisterNumberScreen();
   // static const initialRout = TestScreen();
   // static const initialRout = CheckAssistanceScreen();
   static const noRegisteredRoute = FirstLoginScreen();
@@ -21,6 +22,7 @@ class AppRoutes {
     '/checkAssistance': (BuildContext context) => const CheckAssistanceScreen(),
     '/qrScanner': (BuildContext context) => const QrScannerPage(),
     '/notify': (BuildContext context) => const NotificationScreen(),
+    '/initial': (BuildContext context) => Initializer(),
     '/test': (BuildContext context) => const TestScreen(),
   };
 

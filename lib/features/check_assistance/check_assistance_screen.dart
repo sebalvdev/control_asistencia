@@ -19,7 +19,7 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
   @override
   void initState() {
     super.initState();
-    condition = widget.condition; // Inicializa la variable con el valor recibido
+    condition = widget.condition;
   }
 
   @override
@@ -27,13 +27,11 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
     final logo = sl<Logo>();
 
     return FutureBuilder<String>(
-      future: logo.getLogo(), // Cambiado para que sea un Future
+      future: logo.getLogo(),
       builder: (context, snapshot) {
-        // Mientras se espera la respuesta
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
             body: Center(
-              // child: CircularProgressIndicator()
               child: AppRoutes.loadingRout,
             ),
           );
@@ -42,15 +40,15 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
             body: Center(child: Text('Error loading logo')),
           );
         } else {
-          String logoUrl = snapshot.data ?? 'https://default-logo-url.com/logo.jpg'; // URL predeterminada en caso de error
+          String logoUrl = snapshot.data ?? 'https://default-logo-url.com/logo.jpg';
 
           return Scaffold(
             appBar: AppBar(
               leading: IconButton(
                 icon: const Icon(Icons.exit_to_app),
                 onPressed: () {
-                  Navigator.popAndPushNamed(context, '/registerNumber');
-                  // exitApp();
+                  // Navigator.popAndPushNamed(context, '/registerNumber');
+                  exitApp();
                 },
               ),
               title: Row(

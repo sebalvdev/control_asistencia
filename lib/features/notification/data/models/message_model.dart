@@ -17,7 +17,7 @@ List<MessageModel> notificationsFromJson(String str) {
     json.decode(str).map((x) => MessageModel.fromJson(x))
   );
 
-  list.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
+  list.sort((a, b) => int.parse(a.header).compareTo(int.parse(b.header)));
 
   return list;
 }
@@ -25,10 +25,10 @@ List<MessageModel> notificationsFromJson(String str) {
 class MessageModel extends Message {
 
   const MessageModel({
-    required super.id, required super.message, required super.date, required super.userId
+    required super.header, required super.message, required super.date, required super.userId
   });
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
-    return MessageModel(id: json['notifications_id'], message: 'messaage', date: 'date_time', userId: 'user_id');
+    return MessageModel(header: json['notifications_id'], message: 'messaage', date: 'date_time', userId: 'user_id');
   }
 }

@@ -9,8 +9,10 @@ class Authenticate {
   Future<bool> verifiCodeApi(String codeVerification) async {
     final prefs = await SharedPreferences.getInstance();
     final code = prefs.getString(serverCache);
-
-    String key = "https://jcvctechnology.com/$code/api/authenticate.php";
+    if(code == null){
+      return false;
+    }
+    String key = "https://jcvctechnology.com/$code/api/api.php";
     final operation = "?authenticate=$codeVerification";
     final url = Uri.parse(key + operation);
 
