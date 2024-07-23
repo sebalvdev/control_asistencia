@@ -44,7 +44,7 @@ class _QrScanResultDialogState extends State<QrScanResultDialog>
 
   Widget correctScanDialog() {
     return AlertDialog(
-      title: const Center(child: Text('Ingreso correcto')),
+      title: const Center(child: Text('Escaneo correcto')),
       content: SizedBox(
         height: 225,
         child: ScaleTransition(
