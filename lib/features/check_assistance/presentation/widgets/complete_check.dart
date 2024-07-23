@@ -28,26 +28,29 @@ class _CompleteCheckState extends State<CompleteCheck> {
   @override
   Widget build(BuildContext context) {
     final find = sl<FindAssistance>();
+    final map = find.getAssistance();
     return SingleChildScrollView(
       child: Center(
-        child: FutureBuilder(
-          future: find.findAssistance(qrCode: "2310940139765262"),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapshot.hasError) {
-              return const Center(child: Text('Error loading logo'));
-            } else {
-              if(snapshot.data?['success']) {
-                return body(snapshot.data ?? {});
-              } else {
-                return Text('Error: ${snapshot.data?['message']}');
-              }
-            }
-          },
-        ),
+          child: body(map),
+        // child: FutureBuilder(
+        //   future: find.findAssistance(qrCode: "2310940139765262"),
+        //   // future: find.findAssistance(qrCode: "123"),
+        //   builder: (context, snapshot) {
+        //     if (snapshot.connectionState == ConnectionState.waiting) {
+        //       return const Center(
+        //         child: CircularProgressIndicator(),
+        //       );
+        //     } else if (snapshot.hasError) {
+        //       return const Center(child: Text('Error loading logo'));
+        //     } else {
+        //       if(snapshot.data?['success']) {
+        //         return body(snapshot.data ?? {});
+        //       } else {
+        //         return Text('Error: ${snapshot.data?['message']}');
+        //       }
+        //     }
+        //   },
+        // ),
       ),
     );
   }
@@ -108,20 +111,6 @@ class _CompleteCheckState extends State<CompleteCheck> {
                 'Ubicacion: ${map['registration']}',
                 style: const TextStyle(fontWeight: FontWeight.bold),
               )
-              // child: FutureBuilder(
-              //   future: location.getPosition(),
-              //   builder: (context, snapshot) {
-              //     if (snapshot.connectionState == ConnectionState.waiting) {
-              //       return const Center(
-              //         child: CircularProgressIndicator(),
-              //       );
-              //     } else if (snapshot.hasError) {
-              //       return const Center(child: Text('Error loading logo'));
-              //     } else {
-              //       return snapshot.data ?? const SizedBox();
-              //     }
-              //   },
-              // ),
             ),
           ],
         ),

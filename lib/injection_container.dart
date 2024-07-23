@@ -12,6 +12,7 @@ import 'features/qr_scanner/domain/repositories/qr_scanner_repository.dart';
 import 'features/qr_scanner/domain/usecases/verify_qr_code.dart';
 import 'features/qr_scanner/presentation/bloc/qr_scanner_bloc.dart';
 import 'core/api_services/get_logo.dart';
+import 'features/qr_scanner/presentation/widgets/snacbar.dart';
 
 final sl = GetIt.instance;
 
@@ -75,14 +76,12 @@ Future<void> init() async {
     () => FindAssistance(sharedPreferences: sl()),
   );
 
+  //! Core - Message
 
+  sl.registerLazySingleton<Message>(
+    () => Message(sharedPreferences: sl()),
+  );
 
-  //! Features - Login
-
-  // sl.registerLazySingleton<Remotedatasource>(()
-  //  => Remotedatasource(
-  //   sharedPreferences: sl()
-  //   ));
 
 
 

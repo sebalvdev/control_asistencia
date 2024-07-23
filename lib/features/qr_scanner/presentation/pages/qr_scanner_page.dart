@@ -7,7 +7,6 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../bloc/qr_scanner_bloc.dart';
 import '../../../../injection_container.dart';
-import '../widgets/qr_scan_result_dialog.dart';
 import '../widgets/widgets.dart';
 
 class QrScannerPage extends StatefulWidget {
@@ -94,21 +93,20 @@ class _QrScannerPageState extends State<QrScannerPage> {
     final player = AudioPlayer();
     if (isCorrect) {
       await player.play(AssetSource("audio/sound.mp3"));
-    } else {
-      await player.play(AssetSource("audio/sound.mp3"));
-    }
-    await showDialog(
-        // ignore: use_build_context_synchronously
-        context: context,
-        builder: (BuildContext context) =>
-            QrScanResultDialog(isScanCorrect: isCorrect)).then((_) {
-      isSuccess = false;
-    });
-    if(isCorrect) {
+      await showDialog(
+          // ignore: use_build_context_synchronously
+          context: context,
+          builder: (BuildContext context) =>
+              QrScanResultDialog(isScanCorrect: isCorrect)).then((_) {
+        Navigator.popAndPushNamed(context, '/check');
+        isSuccess = false;
+      });
       // ignore: use_build_context_synchronously
       Navigator.popAndPushNamed(context, '/check');
     } else {
-      // 
+      // await player.play(AssetSource("audio/sound.mp3"));
+      final message = sl<Message>();
+      ScaffoldMessenger.of(context).showSnackBar(message.snackBar());
     }
   }
 }

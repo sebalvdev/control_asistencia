@@ -19,6 +19,11 @@ class FindAssistance {
     final dayFormat = DateFormat.EEEE('es_ES');
     return dayFormat.format(now);
   }
+
+  Map<String, dynamic> getAssistance() {
+    final result = sharedPreferences.getString(assistanceCache);
+    return jsonDecode(result!);
+  }
   
   Future<Map<String, dynamic>> findAssistance({required String qrCode,}) async {
     final userInfo = sl<UserInfo>();
@@ -38,7 +43,12 @@ class FindAssistance {
     );
 
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      await sharedPreferences.setString(assistanceCache, response.body);
+      final result = jsonDecode(response.body);
+      if(result['success'] == false) {
+        sharedPreferences.setString(errorMessageCache, result['message']);
+      }
+      return result;
     } else {
       throw Exception('Failed to load assistance data');
     }
