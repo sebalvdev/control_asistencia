@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class QrScanResultDialog extends StatefulWidget {
-  const QrScanResultDialog({super.key, required this.isScanCorrect});
   final bool isScanCorrect;
+
+  const QrScanResultDialog({super.key, required this.isScanCorrect});
 
   @override
   State<QrScanResultDialog> createState() => _QrScanResultDialogState();
@@ -37,12 +38,13 @@ class _QrScanResultDialogState extends State<QrScanResultDialog>
 
   @override
   Widget build(BuildContext context) {
-    return widget.isScanCorrect ? correctScanDialog() : inCorrectScanDialog();
+    // return widget.isScanCorrect ? correctScanDialog() : inCorrectScanDialog();
+    return correctScanDialog();
   }
 
   Widget correctScanDialog() {
     return AlertDialog(
-      title: const Center(child: Text('Escaneo correcto')),
+      title: const Center(child: Text('Ingreso correcto')),
       content: SizedBox(
         height: 225,
         child: ScaleTransition(
@@ -58,8 +60,10 @@ class _QrScanResultDialogState extends State<QrScanResultDialog>
   }
 
   Widget inCorrectScanDialog() {
+    // final message = sl<Message>();
     return AlertDialog(
-      title: const Center(child: Text('QR incorrecto')),
+      // title: Center(child: Text(message.getMessage() ?? "QR Incorrecto")),
+      title: const Center(child: Text("QR Incorrecto")),
       content: SizedBox(
         height: 225,
         child: ScaleTransition(
