@@ -59,8 +59,16 @@ dependencies:
   device_info_plus: ^10.1.0
   # connection with server
   http: ^1.2.2
+  # personalized icon
+  flutter_launcher_icons: ^0.13.1
 
-  
+# specify icons for android and ios
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path_android: "assets/images/icono.png"
+  image_path_ios: "assets/images/icono.png"
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -6,23 +6,27 @@ import 'screens/screens.dart';
 
 class AppRoutes {
   // static const initialRout = FirstLoginScreen();
-  static const initialRout = RegisterNumberScreen();
-  // static const initialRout = TestScreen();
-  // static const initialRout = CheckAssistanceScreen();
+  // static const initialRout = RegisterNumberScreen();
+  // static const initialRout = LoadingScreen();
+  // static const initialRout = FirstLoginScreen();
+  static const initialRout = CheckAssistanceScreen();
   static const noRegisteredRoute = FirstLoginScreen();
-  static const registeredRout = CheckAssistanceScreen();
+  static const registeredRout = NoCheckAssistanceScreen();
   static const loadingRout = LoadingScreen();
 
   static Map<String, Widget Function(BuildContext)> routes = {
-    '/home': (BuildContext context) => HomeScreen(),
-    '/alert': (BuildContext context) => const AlertScreen(),
-    '/loading': (BuildContext context) => const LoadingScreen(),
     '/firstLogin': (BuildContext context) => const FirstLoginScreen(),
     '/registerNumber': (BuildContext context) => const RegisterNumberScreen(),
-    '/checkAssistance': (BuildContext context) => const CheckAssistanceScreen(),
-    '/qrScanner': (BuildContext context) => const QrScannerPage(),
+    '/noCheck': (BuildContext context) => const NoCheckAssistanceScreen(),
     '/notify': (BuildContext context) => const NotificationScreen(),
+    '/qrScanner': (BuildContext context) => const QrScannerPage(),
+    '/check': (BuildContext context) => const CheckAssistanceScreen(),
+
     '/initial': (BuildContext context) => Initializer(),
+    '/loading': (BuildContext context) => const LoadingScreen(),
+
+    '/alert': (BuildContext context) => const AlertScreen(),
+    '/home': (BuildContext context) => HomeScreen(),
     '/test': (BuildContext context) => const TestScreen(),
   };
 

@@ -210,7 +210,7 @@ else if(isset($_GET['find'])){
 }
 
 else if(isset($_GET['authenticate'])){
-    $code_verification = $_GET['authenticate'];
+    $code_verification = $connect->real_escape_string($_GET['authenticate']);
 
     // Verificar credenciales y código de verificación
     $sql = "SELECT * FROM user WHERE code_verification='$code_verification'";
@@ -225,5 +225,70 @@ else if(isset($_GET['authenticate'])){
     }
     exit;
 }
+else if(isset($_GET['get_user_info'])){
+    $code_verification = $connect->real_escape_string($_GET['get_user_info']);
+
+    $query = "SELECT id_user, name_user, lastname_user, image_user FROM user WHERE code_verification = '$code_verification'";
+    $resouter = mysqli_query($connect, $query);
+
+    header('Content-Type: application/json; charset=utf-8');
+    
+    if(mysqli_num_rows($resouter) >= 1) {
+        $user_info = mysqli_fetch_array($resouter, MYSQLI_ASSOC);
+        $content = array(
+            "success" => true,
+            "id_user" => $user_info['id_user'],
+            "name_user" => $user_info['name_user'],
+            "lastname_user" => $user_info['lastname_user'],
+            "image_user" => $user_info['image_user']
+        );
+        echo json_encode($content);
+    } else {
+        $content = array(
+            "success" => false,
+            "error" => "No user found with the given code_verification."
+        );
+        echo json_encode($content);
+    }
+    exit;
+}
+else if(isset($_GET['new_signal_id'])){
+    $update_signal_id = $_GET['new_signal_id'];
+    $user_id = $_GET['user_id'];
+    $exist_ios = $_GET['ios'];//default android
+
+    if(!$exist_ios || $exist_ios == null){
+        $exist_ios = 0;
+    }
+    else{
+        $exist_ios = 1;
+    }
+    
+    header('Content-Type: application/json; charset=utf-8');
+    
+    // Verificar si one_signal_id ya tiene un valor
+    $check_query = "SELECT one_signal_id FROM user WHERE id_user = $user_id";
+    $check_result = mysqli_query($connect, $check_query);
+    $row = mysqli_fetch_assoc($check_result);
+    
+    if (empty($row['one_signal_id'])) {
+        // Si one_signal_id está vacío, proceder con la actualización
+        $query = "UPDATE user SET one_signal_id = '$update_signal_id', platform_user = $exist_ios WHERE id_user = $user_id";
+        $resouter = mysqli_query($connect, $query);
+
+        if ($resouter) {
+            $content = array("success" => true, "onesignal_id" => $update_signal_id);
+        } else {
+            $content = array("success" => false, "error" => "Error updating record: " . mysqli_error($connect));
+        }
+    } else {
+        // Si one_signal_id ya tiene un valor, no actualizar
+        $content = array("success" => false, "error" => "one_signal_id already exists");
+    }
+
+    echo json_encode($content);
+    exit;
+}
+
 
 ?>

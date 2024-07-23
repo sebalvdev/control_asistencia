@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import '../../../../core/api_services/api.dart';
+import '../../../../injection_container.dart';
 import '../widgets/chat_bubble.dart';
 
-class NotificationScreen extends StatelessWidget {
+class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
 
+  @override
+  State<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
   Future<List<dynamic>> _loadNotifications() async {
-    final Notifications notifications = Notifications();
+    final Notifications notifications = sl();
     try {
       final List<dynamic> data = await notifications.obtenerNotificaciones('892071544');
       return data;
@@ -22,6 +28,9 @@ class NotificationScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notificaciones'),
+        actions: [
+          IconButton(onPressed: () => setState(() {}), icon: const Icon(Icons.refresh))
+        ],
       ),
       body: FutureBuilder<List<dynamic>>(
         future: _loadNotifications(),
@@ -35,6 +44,7 @@ class NotificationScreen extends StatelessWidget {
           } else {
             final notify = snapshot.data!;
             return ListView.builder(
+              reverse: true,
               itemCount: notify.length,
               itemBuilder: (context, index) {
                 final notificacion = notify[index];

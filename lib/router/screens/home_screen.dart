@@ -6,14 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:control_asistencia_2/theme_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../injection_container.dart';
+
 class HomeScreen extends StatelessWidget {
   final UniqueNumber uniqueNumber = UniqueNumber();
-  final Authenticate authenticate = Authenticate();
 
   HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Titulo'),
@@ -41,6 +43,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Future<bool> verifyCode() async{
+    final Authenticate authenticate = sl();
     int code = await uniqueNumber.getValue();
     bool verify = await authenticate.verifiCodeApi(code.toString());
     return verify;

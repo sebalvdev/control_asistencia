@@ -59,10 +59,17 @@ class FirstLoginScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
                   child: Image.asset(
-                    'assets/images/icono.jpeg',
+                    'assets/images/icono_sin.png',
                     scale: 2,
                   ),
+                ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),

@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
-class Location extends StatefulWidget {
-  const Location({super.key});
+class Locationppp extends StatefulWidget {
+  const Locationppp({super.key});
 
   @override
-  State<Location> createState() => _LocationState();
+  State<Locationppp> createState() => _LocationState();
 }
 
-class _LocationState extends State<Location> {
+class _LocationState extends State<Locationppp> {
   // String _locationMessage = "Ubicación:";
 
   @override
@@ -23,33 +23,21 @@ class _LocationState extends State<Location> {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Test if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // setState(() {
-      // _locationMessage = 'Los servicios de ubicación están deshabilitados';
       return 'Los servicios de ubicación están deshabilitados';
-      // });
-      // return;
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        // setState(() {
-        // _locationMessage = 'Se deniegan los permisos de ubicación';
         return 'Se deniegan los permisos de ubicación';
-        // });
-        // return;
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      // setState(() {
       return 'Los permisos de ubicación están denegados permanentemente, no podemos solicitar permisos';
-      // });
-      // return;
     }
 
     try {
@@ -60,7 +48,6 @@ class _LocationState extends State<Location> {
     } catch (e) {
       print('Error: $e');
       return 'Error: $e';
-      // });
     }
   }
 

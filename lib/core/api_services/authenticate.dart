@@ -5,10 +5,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/cache_constants.dart';
 
 class Authenticate {
+
+  final SharedPreferences sharedPreferences;
+
+  Authenticate({required this.sharedPreferences});
   
   Future<bool> verifiCodeApi(String codeVerification) async {
-    final prefs = await SharedPreferences.getInstance();
-    final code = prefs.getString(serverCache);
+    final code = sharedPreferences.getString(serverCache);
 
     if(code == null){
       return false;

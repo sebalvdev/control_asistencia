@@ -1,4 +1,3 @@
-import 'package:control_asistencia_2/features/check_assistance/presentation/pages/check_assistance_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:audioplayers/audioplayers.dart';
@@ -105,12 +104,11 @@ class _QrScannerPageState extends State<QrScannerPage> {
             QrScanResultDialog(isScanCorrect: isCorrect)).then((_) {
       isSuccess = false;
     });
-    Navigator.pushReplacement(
+    if(isCorrect) {
       // ignore: use_build_context_synchronously
-      context,
-      MaterialPageRoute(
-        builder: (context) => CheckAssistanceScreen(condition: isCorrect),
-      ),
-    );
+      Navigator.popAndPushNamed(context, '/check');
+    } else {
+      // 
+    }
   }
 }

@@ -6,20 +6,17 @@ import '../widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class CheckAssistanceScreen extends StatefulWidget {
-  final bool condition;
-  const CheckAssistanceScreen({super.key, this.condition = false});
+  const CheckAssistanceScreen({super.key});
 
   @override
   State<CheckAssistanceScreen> createState() => _CheckAssistanceScreenState();
 }
 
 class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
-  late bool condition;
 
   @override
   void initState() {
     super.initState();
-    condition = widget.condition;
   }
 
   @override
@@ -78,7 +75,7 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
                 ),
               ],
             ),
-            body: condition ? const CompleteCheck() : const Nocheck(),
+            body: const CompleteCheck(),
           );
         }
       },

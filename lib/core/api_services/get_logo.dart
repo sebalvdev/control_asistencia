@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Logo {
   
-  late final SharedPreferences sharedPreferences;
+  final SharedPreferences sharedPreferences;
 
   Logo({required this.sharedPreferences});
   
