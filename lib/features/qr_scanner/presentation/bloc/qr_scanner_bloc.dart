@@ -18,7 +18,8 @@ class QrScannerBloc extends Bloc<QrScannerEvent, QrScannerState> {
     on<VerifyQrCodeEvent>((event, emit) async {
       emit(QrScannerLoading());
       final result = await verifyQrCode(verify_qr_code.Params(qrCode: event.qrCode));
-      await result.fold((failure) async => emit(QrScannerFailure()),
+      await result.fold(
+        (failure) async => emit(QrScannerFailure()),
         (isValidQr) async => emit(QrScannerSuccess(isValidQr: isValidQr)));
     });
   }

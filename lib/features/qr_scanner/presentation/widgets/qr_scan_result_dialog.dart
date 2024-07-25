@@ -38,8 +38,8 @@ class _QrScanResultDialogState extends State<QrScanResultDialog>
 
   @override
   Widget build(BuildContext context) {
-    // return widget.isScanCorrect ? correctScanDialog() : inCorrectScanDialog();
-    return correctScanDialog();
+    return widget.isScanCorrect ? correctScanDialog() : inCorrectScanDialog();
+    // return correctScanDialog();
   }
 
   Widget correctScanDialog() {

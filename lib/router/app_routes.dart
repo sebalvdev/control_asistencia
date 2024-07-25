@@ -27,7 +27,7 @@ class AppRoutes {
 
     '/alert': (BuildContext context) => const AlertScreen(),
     '/home': (BuildContext context) => HomeScreen(),
-    '/test': (BuildContext context) => const TestScreen(),
+    '/test': (BuildContext context) => const TestPage(),
   };
 
   // ? para generar una ruta futura

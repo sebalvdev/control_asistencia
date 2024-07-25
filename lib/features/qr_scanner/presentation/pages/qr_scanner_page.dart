@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import '../bloc/qr_scanner_bloc.dart';
+
 import '../../../../injection_container.dart';
+import '../bloc/qr_scanner_bloc.dart';
 import '../widgets/widgets.dart';
 
 class QrScannerPage extends StatefulWidget {
@@ -14,19 +15,21 @@ class QrScannerPage extends StatefulWidget {
 }
 
 class _QrScannerPageState extends State<QrScannerPage> {
+  bool isLoading = false;
+  bool isScanEnabled = true;
+  bool isSuccess = false;
+
   final MobileScannerController cameraController = MobileScannerController(
     detectionSpeed: DetectionSpeed.normal,
     formats: [BarcodeFormat.qrCode],
   );
 
-  bool isProcessing = false; // Flag to prevent multiple verifications
-  bool isDialogOpen = false; // Flag to prevent multiple dialogs
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Control de Acceso'),
+        title: const Text('Control de acceso'),
+        actions: [appBarTorch()],
       ),
       body: buildBody(context),
       floatingActionButton: FloatingActionButton(
@@ -39,42 +42,35 @@ class _QrScannerPageState extends State<QrScannerPage> {
   BlocProvider<QrScannerBloc> buildBody(BuildContext context) {
     return BlocProvider(
       create: (_) => sl<QrScannerBloc>(),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: BlocBuilder<QrScannerBloc, QrScannerState>(
-            builder: (context, state) {
-              if (state is QrScannerLoading) {
-                WidgetsBinding.instance.addPostFrameCallback((_) async {
-                  if (mounted) {
-                    setState(() {});
-                  }
-                });
-              }
-              if (state is QrScannerSuccess) {
-                WidgetsBinding.instance.addPostFrameCallback((_) async {
-                  if (!isDialogOpen) {
-                    isDialogOpen = true;
-                    await cameraController.stop();
-                    // ignore: use_build_context_synchronously
-                    await scannedQrDialog(context, state.isValidQr);
-                    if (mounted) {
-                      await cameraController.start();
-                      setState(() {
-                        isProcessing = false; // Reset the flag after processing
-                      });
-                    }
-                    isDialogOpen = false;
-                  }
-                });
-              }
+      child: BlocConsumer<QrScannerBloc, QrScannerState>(
+        listener: (context, state) async {
+          if (state is QrScannerLoading && !isLoading) {
+            WidgetsBinding.instance.addPostFrameCallback((_) async {
+              setState(() {
+                isLoading = true;
+              });
+            });
+          }
 
-              return MobileScanner(
+          if (state is QrScannerSuccess && !isSuccess) {
+            isSuccess = true;
+            WidgetsBinding.instance.addPostFrameCallback((_) async {
+              setState(() {
+                isLoading = false;
+              });
+              await scannedQRDialog(context, state.isValidQr);
+            });
+          }
+        },
+        builder: (context, state) {
+          return Stack(
+            children: [
+              MobileScanner(
                 controller: cameraController,
                 onDetect: (capture) {
-                  if (!isProcessing) {
+                  if (isScanEnabled) {
                     setState(() {
-                      isProcessing = true; // Set the flag when processing starts
+                      isScanEnabled = false;
                     });
                     var qrCapture = capture.barcodes[0];
                     BlocProvider.of<QrScannerBloc>(context).add(
@@ -84,7 +80,7 @@ class _QrScannerPageState extends State<QrScannerPage> {
                 },
                 overlay: Container(
                   decoration: ShapeDecoration(
-                    shape: QrScannerViewer(
+                    shape: QrScannerOverlayShape(
                       borderColor: Colors.white,
                       borderRadius: 10,
                       borderLength: 25,
@@ -93,35 +89,84 @@ class _QrScannerPageState extends State<QrScannerPage> {
                     ),
                   ),
                 ),
-              );
-            },
-          ),
-        ),
+              ),
+              if (isLoading)
+                Container(
+                  color: Colors.black.withOpacity(0.5),
+                  child: const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 60.0,
+                          width: 60.0,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 20.0),
+                          child: Text(
+                            'Analizando pase de acceso...',
+                            style: TextStyle(color: Colors.white, fontSize: 16.0),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+            ],
+          );
+        },
       ),
     );
   }
 
-  Future<void> scannedQrDialog(BuildContext context, bool isCorrect) async {
+  Future<void> scannedQRDialog(BuildContext context, bool isScanCorrect) async {
     final player = AudioPlayer();
-    if (isCorrect) {
-      await player.play(AssetSource("audio/sound.mp3"));
+    await player.play(AssetSource("audio/sound.mp3"));
+    if(isScanCorrect) {
       await showDialog(
         // ignore: use_build_context_synchronously
         context: context,
         builder: (BuildContext context) =>
-            QrScanResultDialog(isScanCorrect: isCorrect),
+            QrScanResultDialog(isScanCorrect: isScanCorrect),
       ).then((_) async {
-        if (mounted) {
-          isDialogOpen = false; // Reset dialog flag before navigation
-          await Navigator.pushNamed(context, '/check');
-        }
+          isScanEnabled = true;
+          isSuccess = false;
+          if (mounted) {
+            await Navigator.pushNamed(context, '/check');
+          }
       });
     } else {
       final message = sl<Message>();
       if (mounted) {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(message.snackBar());
-        isDialogOpen = false; // Reset dialog flag after showing snackbar
+        setState(() {
+          isScanEnabled = true;
+          isSuccess = false;
+        });
       }
     }
+  }
+
+  IconButton appBarTorch() {
+    return IconButton(
+      onPressed: () => cameraController.toggleTorch(),
+      color: Colors.white,
+      iconSize: 32.0,
+      icon: ValueListenableBuilder(
+        valueListenable: cameraController.torchState,
+        builder: (context, state, child) {
+          switch (state) {
+            case TorchState.off:
+              return const Icon(Icons.flash_off, color: Colors.grey);
+            case TorchState.on:
+              return const Icon(Icons.flash_on, color: Colors.yellow);
+          }
+        },
+      ),
+    );
   }
 }
