@@ -14,27 +14,29 @@ class NoCheckAssistanceScreen extends StatefulWidget {
 
 class _NoCheckAssistanceScreenState extends State<NoCheckAssistanceScreen> {
   
-  bool newMessages = false;
-
   @override
   void initState() {
     super.initState();
+  }
 
-    // final notificationsService = sl<Notifications>();
-    // newMessages = notificationsService.test();
-  //   List lastMessageslist = notificationsService.getNotifications();
-  //   notificationsService.fetchNotifications;
-  //   List newMessageslist = notificationsService.getNotifications();
+  Future<Map<String, dynamic>> initialData() async {
+    final logo = sl<Logo>();
+    final notification = sl<Notifications>();
+    
+    final urlLogo = await logo.getLogo();
+    final verifyNotify = await notification.verifyNotifications();
 
-  //   newMessages = (lastMessageslist == newMessageslist) ? false : true;
+    return {
+      'logo' : urlLogo,
+      'notify' : verifyNotify,
+    };
   }
 
   @override
   Widget build(BuildContext context) {
-    final logo = sl<Logo>();
 
-    return FutureBuilder<String>(
-      future: logo.getLogo(),
+    return FutureBuilder<Map<String, dynamic>>(
+      future: initialData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
@@ -47,7 +49,7 @@ class _NoCheckAssistanceScreenState extends State<NoCheckAssistanceScreen> {
             body: Center(child: Text('Error loading logo')),
           );
         } else {
-          String logoUrl = snapshot.data ?? 'https://default-logo-url.com/logo.jpg';
+          String logoUrl = snapshot.data?['logo'] ?? 'https://default-logo-url.com/logo.jpg';
 
           return Scaffold(
             appBar: AppBar(
@@ -72,9 +74,8 @@ class _NoCheckAssistanceScreenState extends State<NoCheckAssistanceScreen> {
               ),
               actions: <Widget>[
                 IconButton(
-                  // icon: !newMessages ? const Icon(Icons.notifications) : const Icon(Icons.notification_important_outlined),
-                  icon: const Icon(Icons.notifications),
-                  // icon: const Icon(Icons.notification_important_outlined),
+                  icon: snapshot.data?['notify'] ? const Icon(Icons.notifications) : const Icon(Icons.notification_important_outlined),
+                  // icon: const Icon(Icons.notifications),
                   onPressed: () {
                     Navigator.pushNamed(context, '/notify');
                   },

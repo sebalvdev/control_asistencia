@@ -13,24 +13,19 @@ class Notifications {
   Notifications({required this.sharedPreferences});
 
   Future<bool> verifyNotifications() async {
-    
-    return await getNotifications() == test;
-  }
-
-  // List<dynamic> getNotifications() {
-  List<dynamic> test() {
-    final messages = sharedPreferences.getString(lastMessagesCache);
-    print(messages);
+    // mensajes viejos
+    final lastMessages = sharedPreferences.getString(lastMessagesCache);
+    final newMessages = await fetchNotifications();
+    // print(lastMessages);
     // if(messages == null) {
     //   return [];
     // } else {
-    List<dynamic> result = jsonDecode(messages ?? "{}");
-    return result;
+    // List<dynamic> result = jsonDecode(messages ?? "{}");
+    return lastMessages == newMessages;
     // }
   }
 
-  Future<dynamic> getNotifications() async {
-  // Future<void> fetchNotifications() async {
+  Future<String> fetchNotifications() async {
     final code = sharedPreferences.getString(serverCache);
     final codeVerification = sharedPreferences.getInt(codeCache).toString();
 
@@ -43,27 +38,32 @@ class Notifications {
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
+        return response.body;
         // print(data);
-        if (data.isNotEmpty) {
-          // Ordenar la lista por 'notifications_id' en orden descendente
-          data.sort((a, b) => (int.parse(b['notifications_id'])).compareTo(int.parse(a['notifications_id'])));
-
-          // for (var notificacion in data) {
-          //   print(notificacion);
-          // }
-          // print(jsonEncode(data));
-          sharedPreferences.setString(newMessagesCache, jsonEncode(data));
-          return data;
-        } else {
-          print('No hay notificaciones');
-        }
       } else {
         print('Error en la solicitud: ${response.statusCode}');
       }
     } catch (e) {
       print('Error: $e');
     }
+    return "";
+  }
+
+  Future<List<dynamic>> getNotifications() async {
+    final newNotifycations = await fetchNotifications();
+        final List<dynamic> data = json.decode(newNotifycations);
+        if (data.isNotEmpty) {
+          // Ordenar la lista por 'notifications_id' en orden descendente
+          data.sort((a, b) => (int.parse(b['notifications_id'])).compareTo(int.parse(a['notifications_id'])));
+          // for (var notificacion in data) {
+          //   print(notificacion);
+          // }
+          // print(jsonEncode(data));
+          sharedPreferences.setString(lastMessagesCache, newNotifycations);
+          return data;
+        } else {
+          print('No hay notificaciones');
+        }
     return [];
   }
 }

@@ -19,12 +19,24 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
     super.initState();
   }
 
+  Future<Map<String, dynamic>> initialData() async {
+    final logo = sl<Logo>();
+    final notification = sl<Notifications>();
+    
+    final urlLogo = await logo.getLogo();
+    final verifyNotify = await notification.verifyNotifications();
+
+    return {
+      'logo' : urlLogo,
+      'notify' : verifyNotify,
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
-    final logo = sl<Logo>();
 
-    return FutureBuilder<String>(
-      future: logo.getLogo(),
+    return FutureBuilder<Map<String, dynamic>>(
+      future: initialData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
@@ -37,7 +49,7 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
             body: Center(child: Text('Error loading logo')),
           );
         } else {
-          String logoUrl = snapshot.data ?? 'https://default-logo-url.com/logo.jpg';
+          String logoUrl = snapshot.data?['logo'] ?? 'https://default-logo-url.com/logo.jpg';
 
           return Scaffold(
             appBar: AppBar(
@@ -62,11 +74,12 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
               ),
               actions: <Widget>[
                 IconButton(
-                  icon: const Icon(Icons.notifications),
+                  icon: snapshot.data?['notify'] ? const Icon(Icons.notifications) : const Icon(Icons.notification_important_outlined),
                   onPressed: () {
                     Navigator.pushNamed(context, '/notify');
                   },
                 ),
+
                 IconButton(
                   icon: const Icon(Icons.camera_alt_outlined),
                   onPressed: () {

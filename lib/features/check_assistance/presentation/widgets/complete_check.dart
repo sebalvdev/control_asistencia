@@ -7,9 +7,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../../../core/api_services/last_assistance.dart';
 import '../../../../injection_container.dart';
-import '../../../../router/app_routes.dart';
 import 'get_info_cache.dart';
-// import 'location.dart';
 
 class CompleteCheck extends StatefulWidget {
   const CompleteCheck({super.key});
@@ -19,7 +17,6 @@ class CompleteCheck extends StatefulWidget {
 }
 
 class _CompleteCheckState extends State<CompleteCheck> {
-  // String currentTime = '';
 
   final MobileScannerController cameraController = MobileScannerController(
     detectionSpeed: DetectionSpeed.normal,
@@ -30,17 +27,11 @@ class _CompleteCheckState extends State<CompleteCheck> {
   void initState() {
     super.initState();
     cameraController.stop();
-    // updateTime();
-    // currentTime = CurretTime.getCurrentTime();
   }
 
   @override
   Widget build(BuildContext context) {
-    // final find = sl<FindAssistance>();
-    // final map = find.getAssistance();
     final lastAssistance = sl<AssistanceInfo>();
-    // final map = await lastAssistance.fetchLastCheck();
-    // print(map);
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
@@ -55,7 +46,6 @@ class _CompleteCheckState extends State<CompleteCheck> {
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
-              // child: AppRoutes.loadingRout,
             ),
           );
         } else if (snapshot.hasError) {
@@ -92,7 +82,6 @@ class _CompleteCheckState extends State<CompleteCheck> {
           padding: const EdgeInsets.all(10),
           child: Text(
             '${map['type'] ?? ""} ${map['hour'] ?? ""}',
-            // 'Ingreso: $currentTime',
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.amber,
