@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -127,7 +129,6 @@ class _QrScannerPageState extends State<TestPage> {
     await player.play(AssetSource("audio/sound.mp3"));
     if(isScanCorrect) {
       await showDialog(
-        // ignore: use_build_context_synchronously
         context: context,
         builder: (BuildContext context) =>
             QrScanResultDialog(isScanCorrect: isScanCorrect),

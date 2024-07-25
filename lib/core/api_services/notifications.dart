@@ -12,32 +12,58 @@ class Notifications {
 
   Notifications({required this.sharedPreferences});
 
-  Future<List> obtenerNotificaciones(String codigo) async {
-    final server = sharedPreferences.getString(serverCache);
-    final String baseUrl = 'https://jcvctechnology.com/$server/api/api.php';
-    final response = await http.get(
-      Uri.parse('$baseUrl?notifications=$codigo'),
-      headers: {"Content-Type": "application/json"},
-    );
+  Future<bool> verifyNotifications() async {
+    
+    return await getNotifications() == test;
+  }
 
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      if (data.isNotEmpty) {
-        // Ordenar la lista por 'notifications_id' en orden descendente
-        data.sort((a, b) => (int.parse(b['notifications_id'])).compareTo(int.parse(a['notifications_id'])));
+  // List<dynamic> getNotifications() {
+  List<dynamic> test() {
+    final messages = sharedPreferences.getString(lastMessagesCache);
+    print(messages);
+    // if(messages == null) {
+    //   return [];
+    // } else {
+    List<dynamic> result = jsonDecode(messages ?? "{}");
+    return result;
+    // }
+  }
 
-        for (var notificacion in data) {
-          print(notificacion);
+  Future<dynamic> getNotifications() async {
+  // Future<void> fetchNotifications() async {
+    final code = sharedPreferences.getString(serverCache);
+    final codeVerification = sharedPreferences.getInt(codeCache).toString();
+
+    String key = "https://jcvctechnology.com/$code/api/api.php";
+    final operation = "?notifications=$codeVerification";
+    final url = Uri.parse(key + operation);
+
+    
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        // print(data);
+        if (data.isNotEmpty) {
+          // Ordenar la lista por 'notifications_id' en orden descendente
+          data.sort((a, b) => (int.parse(b['notifications_id'])).compareTo(int.parse(a['notifications_id'])));
+
+          // for (var notificacion in data) {
+          //   print(notificacion);
+          // }
+          // print(jsonEncode(data));
+          sharedPreferences.setString(newMessagesCache, jsonEncode(data));
+          return data;
+        } else {
+          print('No hay notificaciones');
         }
-        
-        return data;
       } else {
-        print('No hay notificaciones');
-        return [];
+        print('Error en la solicitud: ${response.statusCode}');
       }
-    } else {
-      print('Error en la solicitud: ${response.statusCode}');
-      return [];
+    } catch (e) {
+      print('Error: $e');
     }
+    return [];
   }
 }

@@ -13,10 +13,20 @@ class NoCheckAssistanceScreen extends StatefulWidget {
 }
 
 class _NoCheckAssistanceScreenState extends State<NoCheckAssistanceScreen> {
+  
+  bool newMessages = false;
 
   @override
   void initState() {
     super.initState();
+
+    // final notificationsService = sl<Notifications>();
+    // newMessages = notificationsService.test();
+  //   List lastMessageslist = notificationsService.getNotifications();
+  //   notificationsService.fetchNotifications;
+  //   List newMessageslist = notificationsService.getNotifications();
+
+  //   newMessages = (lastMessageslist == newMessageslist) ? false : true;
   }
 
   @override
@@ -62,7 +72,9 @@ class _NoCheckAssistanceScreenState extends State<NoCheckAssistanceScreen> {
               ),
               actions: <Widget>[
                 IconButton(
+                  // icon: !newMessages ? const Icon(Icons.notifications) : const Icon(Icons.notification_important_outlined),
                   icon: const Icon(Icons.notifications),
+                  // icon: const Icon(Icons.notification_important_outlined),
                   onPressed: () {
                     Navigator.pushNamed(context, '/notify');
                   },

@@ -2,6 +2,7 @@ import 'package:control_asistencia_2/features/initializer/presentation/widgets/i
 import 'package:control_asistencia_2/features/qr_scanner/presentation/pages/qr_scanner_page.dart';
 import 'package:flutter/material.dart';
 
+import '../injection_container.dart';
 import 'screens/screens.dart';
 
 class AppRoutes {
@@ -13,6 +14,9 @@ class AppRoutes {
   static const noRegisteredRoute = FirstLoginScreen();
   static const registeredRout = NoCheckAssistanceScreen();
   static const loadingRout = LoadingScreen();
+  static const sameDay = CheckAssistanceScreen();
+
+  // final initializer = sl<Initializer>();
 
   static Map<String, Widget Function(BuildContext)> routes = {
     '/firstLogin': (BuildContext context) => const FirstLoginScreen(),
@@ -22,7 +26,7 @@ class AppRoutes {
     '/qrScanner': (BuildContext context) => const QrScannerPage(),
     '/check': (BuildContext context) => const CheckAssistanceScreen(),
 
-    '/initial': (BuildContext context) => Initializer(),
+    '/initial': (BuildContext context) => Initializer(sharedPreferences: sl(),),
     '/loading': (BuildContext context) => const LoadingScreen(),
 
     '/alert': (BuildContext context) => const AlertScreen(),

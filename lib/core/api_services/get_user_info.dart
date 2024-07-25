@@ -25,6 +25,7 @@ class UserInfo {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
+        print(data);
 
         if (data['success']) {
           await sharedPreferences.setString(userInfoCache, json.encode(data));

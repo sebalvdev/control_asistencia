@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +25,14 @@ class _QrScannerPageState extends State<QrScannerPage> {
     detectionSpeed: DetectionSpeed.normal,
     formats: [BarcodeFormat.qrCode],
   );
+
+  @override
+  void dispose() {
+    // Asegúrate de detener la cámara al cerrar el widget
+    // cameraController.dispose();
+    cameraController.stop();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +118,8 @@ class _QrScannerPageState extends State<QrScannerPage> {
                           padding: EdgeInsets.only(top: 20.0),
                           child: Text(
                             'Analizando pase de acceso...',
-                            style: TextStyle(color: Colors.white, fontSize: 16.0),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.0),
                           ),
                         ),
                       ],
@@ -125,23 +136,21 @@ class _QrScannerPageState extends State<QrScannerPage> {
   Future<void> scannedQRDialog(BuildContext context, bool isScanCorrect) async {
     final player = AudioPlayer();
     await player.play(AssetSource("audio/sound.mp3"));
-    if(isScanCorrect) {
+    if (isScanCorrect) {
       await showDialog(
-        // ignore: use_build_context_synchronously
         context: context,
         builder: (BuildContext context) =>
             QrScanResultDialog(isScanCorrect: isScanCorrect),
       ).then((_) async {
-          isScanEnabled = true;
-          isSuccess = false;
-          if (mounted) {
-            await Navigator.pushNamed(context, '/check');
-          }
+        isScanEnabled = true;
+        isSuccess = false;
       });
+      if (mounted) {
+        await Navigator.pushNamed(context, '/check');
+      }
     } else {
       final message = sl<Message>();
       if (mounted) {
-        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(message.snackBar());
         setState(() {
           isScanEnabled = true;

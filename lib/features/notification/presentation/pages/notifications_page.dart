@@ -11,53 +11,132 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  Future<List<dynamic>> _loadNotifications() async {
-    final Notifications notifications = sl();
+  int currentPage = 0;
+  List<dynamic> notifications = [];
+  bool isLoading = false;
+  bool hasMore = true;
+  final pageSize = 5;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadNotifications();
+  }
+
+  Future<void> _loadNotifications() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final notificationsService = sl<Notifications>();
     try {
-      final List<dynamic> data = await notifications.obtenerNotificaciones('892071544');
-      return data;
+      final List<dynamic> data = await notificationsService.getNotifications();
+      setState(() {
+        notifications = data;
+        hasMore = notifications.length > pageSize * (currentPage + 1);
+      });
     } catch (e) {
-      // ignore: avoid_print
       print('Error al obtener notificaciones: $e');
-      return [];
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  void _loadNextPage() {
+    if (hasMore && !isLoading) {
+      setState(() {
+        currentPage++;
+      });
+      _loadNotifications();
+    }
+  }
+
+  void _loadPreviousPage() {
+    if (currentPage > 0 && !isLoading) {
+      setState(() {
+        currentPage--;
+      });
+      _loadNotifications();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final int startIndex = currentPage * pageSize;
+    final int endIndex = (currentPage + 1) * pageSize;
+    final List<dynamic> displayedNotifications = notifications.sublist(
+      startIndex,
+      endIndex > notifications.length ? notifications.length : endIndex,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notificaciones'),
         actions: [
-          IconButton(onPressed: () => setState(() {}), icon: const Icon(Icons.refresh))
+          IconButton(
+            onPressed: () {
+              setState(() {
+                currentPage = 0;
+                notifications.clear();
+                hasMore = true;
+              });
+              _loadNotifications();
+            },
+            icon: const Icon(Icons.refresh),
+          ),
         ],
       ),
-      body: FutureBuilder<List<dynamic>>(
-        future: _loadNotifications(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No hay notificaciones'));
-          } else {
-            final notify = snapshot.data!;
-            return ListView.builder(
-              reverse: true,
-              itemCount: notify.length,
-              itemBuilder: (context, index) {
-                final notificacion = notify[index];
-                return ChatBubble(
-                  header: (notificacion['user_id'] == '0') ? 'Para todos' : 'Solo para ti',
-                  message: notificacion['message'] ?? 'No hay mensaje',
-                  date: notificacion['date_time'] ?? DateTime.now().toString(),
-                );
-              },
-            );
-          }
-        },
-      ),
+      body: isLoading && notifications.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    // enlista los mensajes desde abajo o arriba de la pantalla
+                    reverse: false,
+                    itemCount: displayedNotifications.length,
+                    itemBuilder: (context, index) {
+                      final notificacion = displayedNotifications[index];
+                      return ChatBubble(
+                        header: (notificacion['user_id'] == '0')
+                            ? 'Para todos'
+                            : 'Solo para ti',
+                        message: notificacion['message'] ?? 'No hay mensaje',
+                        date: notificacion['date_time'] ??
+                            DateTime.now().toString(),
+                      );
+                    },
+                  ),
+                ),
+                if (!isLoading)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        onPressed: currentPage > 0 ? _loadPreviousPage : () => {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: (currentPage > 0) ? Colors.white : Colors.white.withOpacity(0.2), // Color de fondo del botón
+                        ),
+                        child: const Text('Anterior'),
+                      ),
+                      ElevatedButton(
+                        onPressed: hasMore ? _loadNextPage : () => {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor : hasMore ?  Colors.white : Colors.white.withOpacity(0.2),
+                        ),
+                        child: const Text('Siguiente'),
+                      ),
+                    ],
+                  ),
+                if (isLoading)
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: CircularProgressIndicator(),
+                  ),
+              ],
+            ),
     );
   }
 }

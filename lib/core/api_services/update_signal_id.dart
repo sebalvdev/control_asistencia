@@ -35,7 +35,7 @@ class UpdateSignalId {
           // Actualización exitosa
           print('ID de OneSignal actualizado: ${data['onesignal_id']}');
         } else {
-          print('Message: $data');
+          // print('Message: $data');
         }
       } else {
         // Error en la solicitud

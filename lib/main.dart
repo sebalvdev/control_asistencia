@@ -10,6 +10,7 @@ import 'package:control_asistencia_2/theme_cubit.dart';
 import 'package:control_asistencia_2/themes/app_theme.dart';
 
 import 'injection_container.dart' as dependencies;
+import 'injection_container.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Main',
 
-          home: Initializer(),
+          home: Initializer(sharedPreferences: sl(),),
           // home: AppRoutes.initialRout,
           routes: AppRoutes.routes,
           // ? para generar una ruta futura

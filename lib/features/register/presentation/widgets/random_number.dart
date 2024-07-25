@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/constants/cache_constants.dart';
-import '../../../../widgets/date_today.dart';
+// import '../../../../widgets/date_today.dart';
 
 class RandomNumber extends StatefulWidget {
   const RandomNumber({super.key});
@@ -71,7 +71,7 @@ class _RandomNumberState extends State<RandomNumber> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const DateToday(),
+        // const DateToday(),
         Padding(
           padding: const EdgeInsets.only(top: 10),
           child: FutureBuilder<int>(
