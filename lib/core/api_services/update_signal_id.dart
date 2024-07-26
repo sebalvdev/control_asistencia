@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../injection_container.dart';
 import '../constants/cache_constants.dart';
+import '../constants/domain.dart';
 import './api.dart';
 
 class UpdateSignalId {
@@ -23,10 +24,17 @@ class UpdateSignalId {
     final userId = await userInfo.getUserId();
     final code = sharedPreferences.getString(serverCache);
 
-    final response = await http.get(
-      Uri.parse('https://jcvctechnology.com/$code/api/api.php?new_signal_id=$oneSignal&user_id=$userId&ios=$isAndroid'),
-      headers: {"Content-Type": "application/json"},
-    );
+    // String key = "https://jcvctechnology.com/$code/api/api.php";
+    String key = "https://$domainName/$code/api/api.php";
+    final operation = "?new_signal_id=$oneSignal&user_id=$userId&ios=$isAndroid";
+    final url = Uri.parse(key + operation);
+    final response = await http.get(url);
+
+    // final response = await http.get(
+    //   // Uri.parse('https://jcvctechnology.com/$code/api/api.php?new_signal_id=$oneSignal&user_id=$userId&ios=$isAndroid'),
+    //   Uri.parse('https://controlasistencia.net/$code/api/api.php?new_signal_id=$oneSignal&user_id=$userId&ios=$isAndroid'),
+    //   headers: {"Content-Type": "application/json"},
+    // );
 
     try {
       if (response.statusCode == 200) {
@@ -38,7 +46,6 @@ class UpdateSignalId {
           // print('Message: $data');
         }
       } else {
-        // Error en la solicitud
         print('Error en la solicitud: ${response.statusCode}');
       }
     } catch (e) {

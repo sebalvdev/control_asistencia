@@ -173,12 +173,13 @@ else if(isset($_GET['find'])){
     	        $latitude_assistance = $_GET['latitude'];
     	        $longitude_assistance = $_GET['longitude'];
     	        $datetime_assistance = date("Y-m-d H:i:s");
+    	        $datetime_assistance_now = date("H:i:s");
     
     	        $new_query = "INSERT INTO assistance(id_user,datetime_assistance,type_assistance,latitude_assistance,longitude_assistance,browser_assistance,location)
     	        VALUES ($id_user,'$datetime_assistance','$type_assistance','$latitude_assistance','$longitude_assistance','$browser_assistance','$registration')";
                 $insert = mysqli_query($connect, $new_query);
                 $total_records2 = mysqli_num_rows($insert);
-                $content = array("success" => true,"type_asistence" => $type_assistance,"date"=>$datetime_assistance,"registration"=>$registration);
+                $content = array("success" => true,"type_asistence" => $type_assistance,"date"=>$datetime_assistance_now,"registration"=>$registration);
             }
             else{
                 $content = array("success" => false,"message"=>'Rango de Zona no permitido para poder marcar asistencia');
@@ -289,6 +290,43 @@ else if(isset($_GET['new_signal_id'])){
     echo json_encode($content);
     exit;
 }
+else if(isset($_GET['last_assistance'])){
+    $id_user = intval($_GET['last_assistance']);
+
+    $query = "SELECT datetime_assistance, type_assistance, location
+        FROM assistance
+        WHERE id_user = $id_user
+        ORDER BY datetime_assistance DESC
+        LIMIT 1";
+
+    $resouter = mysqli_query($connect, $query);
+
+    header('Content-Type: application/json; charset=utf-8');
+
+    if(mysqli_num_rows($resouter) >= 1) {
+        $last_assistance = mysqli_fetch_array($resouter, MYSQLI_ASSOC);
+        $content = array(
+            "success" => true,
+            "datetime_assistance" => $last_assistance['datetime_assistance'],
+            "type_assistance" => $last_assistance['type_assistance'],
+            "location" => $last_assistance['location'],
+        );
+    } else if (mysqli_num_rows($resouter) == 0 || mysqli_num_rows($resouter) == null) {
+        $content = array(
+            "success" => false,
+            "message" => "No existe registro de asistencia anterior."
+        );
+    } else {
+        $content = array(
+            "success" => false,
+            "message" => "No se encontro registro de asistencia para este ID."
+        );
+    }
+    
+    echo json_encode($content);
+    exit;
+}
+
 
 
 ?>

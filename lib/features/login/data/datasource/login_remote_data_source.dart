@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/constants/cache_constants.dart';
@@ -10,21 +9,6 @@ class Remotedatasource{
   final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     sharedPreferences.setString(serverCache, server);
-  }
-  
-  Future<bool> verificar(String codigo) async {
-    final url = "https://jcvctechnology.com/$codigo/api/api.php";
-    try {
-      final response = await http.get(Uri.parse(url));
-      final result = response.statusCode == 200;
-      if (result) {
-      return result;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      return false;
-    } 
   }
 
   Future<Map<String, String>> extractDataFromJson(String jsonString) async {

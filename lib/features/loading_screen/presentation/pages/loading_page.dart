@@ -21,12 +21,10 @@ class LoadingScreen extends StatelessWidget {
               scale: 2,
             ),
           ),
-          // const SizedBox(height: 50,),
           const Padding(
             padding: EdgeInsets.all(60.0),
             child: CircularProgressIndicator(),
           ),
-          // const SizedBox(height: 50,),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 3.0),
             padding: const EdgeInsets.all(8.0),
@@ -39,16 +37,6 @@ class LoadingScreen extends StatelessWidget {
               scale: 4,
             ),
           ),
-          
-
-          // ElevatedButton(
-          //   onPressed: () {},
-          //   // onPressed: () => Navigator.popAndPushNamed(context, '/firstLogin'),
-          //   child: Image.asset(
-          //     'assets/images/logo.jpg',
-          //     scale: 4,
-          //   ),
-          // ),
         ],
       ),
     ));

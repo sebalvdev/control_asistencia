@@ -56,7 +56,6 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
               leading: IconButton(
                 icon: const Icon(Icons.exit_to_app),
                 onPressed: () {
-                  // Navigator.popAndPushNamed(context, '/registerNumber');
                   exitApp();
                 },
               ),

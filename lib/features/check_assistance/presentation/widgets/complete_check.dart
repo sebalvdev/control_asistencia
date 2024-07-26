@@ -1,7 +1,3 @@
-// import 'package:control_asistencia_2/core/api_services/find.dart';
-// import 'package:control_asistencia_2/features/check_assistance/presentation/widgets/current_time.dart';
-// import 'package:control_asistencia_2/widgets/location.dart';
-// import 'package:control_asistencia_2/widgets/date_today.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -35,7 +31,6 @@ class _CompleteCheckState extends State<CompleteCheck> {
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
-        // Sobrescribir el comportamiento del botón "Regresar" para no permitir regresar
         return Future.value(false);
       },
       child: FutureBuilder<Map<String, dynamic>>(
@@ -74,7 +69,6 @@ class _CompleteCheckState extends State<CompleteCheck> {
   }
 
   Widget body(Map<String, dynamic> map) {
-    // final location = Location();
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [

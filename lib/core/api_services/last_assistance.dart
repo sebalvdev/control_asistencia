@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../injection_container.dart';
+import '../constants/domain.dart';
 import 'api.dart';
 
 class AssistanceInfo {
@@ -19,7 +20,8 @@ class AssistanceInfo {
     final userInfo = sl<UserInfo>();
     final userId = await userInfo.getUserId();
 
-    String key = "https://jcvctechnology.com/$code/api/api.php";
+    // String key = "https://jcvctechnology.com/$code/api/api.php";
+    String key = "https://$domainName/$code/api/api.php";
     final operation = "?last_assistance=$userId";
     final url = Uri.parse(key + operation);
 
@@ -44,8 +46,6 @@ class AssistanceInfo {
             'hour' : lastDate,
             'location' : location,
           };
-          // return '''  Ultima asistencia: $datetimeAssistance 
-          //             Tipo: $typeAssistance''';
         } else {
           return {"message" : data['message']};
         }
@@ -75,11 +75,8 @@ class AssistanceInfo {
         final data = json.decode(response.body);
 
         if (data['success']) {
-          // DateTime now = DateTime.now();
-          // String currentDateStr = DateFormat('yyyy-MM-dd').format(now);
 
           final datetimeAssistance = data['datetime_assistance'];
-          // await sharedPreferences.setString(lastDateCache, currentDateStr);
 
           final lastDate = DateFormat('yyyy-MM-dd').parse(datetimeAssistance);
           await sharedPreferences.setString(lastDateCache, lastDate.toString());
@@ -98,10 +95,4 @@ class AssistanceInfo {
     }
     return "";
   }
-
-  // String getLastDate() {
-  //   final result = sharedPreferences.getString(lastDateCache) ?? "-----------";
-  //   String date = result.substring(0, 10);
-  //   return date;
-  // }
 }

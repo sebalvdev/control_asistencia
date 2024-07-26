@@ -56,7 +56,6 @@ class _NoCheckAssistanceScreenState extends State<NoCheckAssistanceScreen> {
               leading: IconButton(
                 icon: const Icon(Icons.exit_to_app),
                 onPressed: () {
-                  // Navigator.popAndPushNamed(context, '/registerNumber');
                   exitApp();
                 },
               ),
@@ -75,7 +74,6 @@ class _NoCheckAssistanceScreenState extends State<NoCheckAssistanceScreen> {
               actions: <Widget>[
                 IconButton(
                   icon: snapshot.data?['notify'] ? const Icon(Icons.notifications) : const Icon(Icons.notification_important_outlined),
-                  // icon: const Icon(Icons.notifications),
                   onPressed: () {
                     Navigator.pushNamed(context, '/notify');
                   },

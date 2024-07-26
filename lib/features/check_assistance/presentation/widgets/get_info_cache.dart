@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/api_services/api.dart';
 import '../../../../injection_container.dart';
 
@@ -16,8 +15,8 @@ Widget getName() {
         String data = snapshot.data ?? "";
 
         return Text(data,
-            // child: Text('sebastian alvarez',
-            style: const TextStyle(fontWeight: FontWeight.bold));
+            style: const TextStyle(fontWeight: FontWeight.bold)
+          );
       }
     },
   );

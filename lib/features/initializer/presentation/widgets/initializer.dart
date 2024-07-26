@@ -5,7 +5,6 @@ import 'package:control_asistencia_2/router/app_routes.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/api_services/api.dart';
-// import '../../../../core/constants/cache_constants.dart';
 import '../../../../injection_container.dart';
 import '../../../register/presentation/widgets/obtain_unique_number.dart';
 
@@ -20,7 +19,6 @@ class Initializer extends StatelessWidget {
 
     DateTime now = DateTime.now();
     final newDate = DateFormat('yyyy-MM-dd').format(now);
-    // final lastDate = sharedPreferences.getString(lastDateCache);
 
     final assistanceInfo = sl<AssistanceInfo>();
     final data = await assistanceInfo.fetchLastCheck();
@@ -58,7 +56,6 @@ class Initializer extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
             body: Center(
-              // child: CircularProgressIndicator(),
               child: AppRoutes.loadingRout,
             ),
           );
@@ -88,7 +85,7 @@ class Initializer extends StatelessWidget {
               }
             }
           });
-          return Container(); // Retorna un contenedor vacío mientras se navega
+          return Container();
         } else {
           return const Scaffold(
             body: Center(

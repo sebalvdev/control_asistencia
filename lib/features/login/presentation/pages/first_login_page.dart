@@ -1,6 +1,8 @@
 import 'package:control_asistencia_2/features/login/data/datasource/login_remote_data_source.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/api_services/api.dart';
+
 class FirstLoginScreen extends StatelessWidget {
 
   const FirstLoginScreen({super.key});
@@ -8,12 +10,14 @@ class FirstLoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController controller = TextEditingController();
+    
+    final confirmApi = ConfirmApi();
     final Remotedatasource remotedatasource = Remotedatasource();
 
     // Modificado para ser una función asíncrona
     Future<void> verificarCodigo() async {
       // Esperar a que el Future<bool> se complete
-      bool esCorrecto = await remotedatasource.verificar(controller.text);
+      bool esCorrecto = await confirmApi.verificar(controller.text);
 
       if (!esCorrecto) {
         const snackBar = SnackBar(
