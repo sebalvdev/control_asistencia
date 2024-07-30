@@ -1,4 +1,4 @@
-import 'package:control_asistencia_2/core/constants/cache_constants.dart';
+import 'package:control_asistencia_qr/core/constants/cache_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/domain.dart';

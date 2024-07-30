@@ -1,5 +1,5 @@
-import 'package:control_asistencia_2/features/initializer/presentation/widgets/initializer.dart';
-import 'package:control_asistencia_2/features/qr_scanner/presentation/pages/qr_scanner_page.dart';
+import 'package:control_asistencia_qr/features/initializer/presentation/widgets/initializer.dart';
+import 'package:control_asistencia_qr/features/qr_scanner/presentation/pages/qr_scanner_page.dart';
 import 'package:flutter/material.dart';
 
 import '../injection_container.dart';

@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-import 'package:control_asistencia_2/features/initializer/presentation/widgets/initializer.dart';
-import 'package:control_asistencia_2/router/app_routes.dart';
-import 'package:control_asistencia_2/theme_cubit.dart';
-import 'package:control_asistencia_2/themes/app_theme.dart';
+import 'package:control_asistencia_qr/features/initializer/presentation/widgets/initializer.dart';
+import 'package:control_asistencia_qr/router/app_routes.dart';
+import 'package:control_asistencia_qr/theme_cubit.dart';
+import 'package:control_asistencia_qr/themes/app_theme.dart';
 
 import 'injection_container.dart' as dependencies;
 import 'injection_container.dart';

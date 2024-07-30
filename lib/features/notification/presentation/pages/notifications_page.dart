@@ -36,6 +36,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         hasMore = notifications.length > pageSize * (currentPage + 1);
       });
     } catch (e) {
+      // ignore: avoid_print
       print('Error al obtener notificaciones: $e');
     } finally {
       setState(() {

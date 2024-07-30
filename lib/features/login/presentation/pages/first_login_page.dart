@@ -1,4 +1,4 @@
-import 'package:control_asistencia_2/features/login/data/datasource/login_remote_data_source.dart';
+import 'package:control_asistencia_qr/features/login/data/datasource/login_remote_data_source.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/api_services/api.dart';

@@ -1,2 +1,2 @@
-const domainName = 'jcvctechnology.com';
-// const domainName = 'controlasistencia.net';
+// const domainName = 'jcvctechnology.com';
+const domainName = 'controlasistencia.net';
