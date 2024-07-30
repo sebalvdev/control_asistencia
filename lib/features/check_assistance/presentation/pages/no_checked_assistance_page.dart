@@ -12,11 +12,28 @@ class NoCheckAssistanceScreen extends StatefulWidget {
   State<NoCheckAssistanceScreen> createState() => _NoCheckAssistanceScreenState();
 }
 
-class _NoCheckAssistanceScreenState extends State<NoCheckAssistanceScreen> {
-  
+class _NoCheckAssistanceScreenState extends State<NoCheckAssistanceScreen> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Color?> _colorAnimation;
+
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _colorAnimation = ColorTween(
+      begin: Colors.red,
+      end: Colors.transparent,
+    ).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   Future<Map<String, dynamic>> initialData() async {
@@ -50,6 +67,7 @@ class _NoCheckAssistanceScreenState extends State<NoCheckAssistanceScreen> {
           );
         } else {
           String logoUrl = snapshot.data?['logo'] ?? 'https://default-logo-url.com/logo.jpg';
+          bool notify = snapshot.data?['notify'] ?? false;
 
           return Scaffold(
             appBar: AppBar(
@@ -73,7 +91,15 @@ class _NoCheckAssistanceScreenState extends State<NoCheckAssistanceScreen> {
               ),
               actions: <Widget>[
                 IconButton(
-                  icon: snapshot.data?['notify'] ? const Icon(Icons.notifications) : const Icon(Icons.notification_important_outlined),
+                  icon: AnimatedBuilder(
+                    animation: _colorAnimation,
+                    builder: (context, child) {
+                      return Icon(
+                        notify ? Icons.notifications : Icons.notification_important_outlined,
+                        color: notify ? null : _colorAnimation.value,
+                      );
+                    },
+                  ),
                   onPressed: () {
                     Navigator.pushNamed(context, '/notify');
                   },

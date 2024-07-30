@@ -59,7 +59,7 @@ class UserInfo {
     final code = sharedPreferences.getString(serverCache);
     if (userInfo != null) {
       final map = json.decode(userInfo);
-      final url = "https://jcvctechnology.com/$code/images/users/${map['image_user']}";
+      final url = "https://$domainName/$code/images/users/${map['image_user']}";
       return url;
     }
     return null;

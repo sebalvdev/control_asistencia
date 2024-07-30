@@ -12,11 +12,28 @@ class CheckAssistanceScreen extends StatefulWidget {
   State<CheckAssistanceScreen> createState() => _CheckAssistanceScreenState();
 }
 
-class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
+class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Color?> _colorAnimation;
 
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _colorAnimation = ColorTween(
+      begin: Colors.red,
+      end: Colors.transparent,
+    ).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   Future<Map<String, dynamic>> initialData() async {
@@ -27,14 +44,13 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
     final verifyNotify = await notification.verifyNotifications();
 
     return {
-      'logo' : urlLogo,
-      'notify' : verifyNotify,
+      'logo': urlLogo,
+      'notify': verifyNotify,
     };
   }
 
   @override
   Widget build(BuildContext context) {
-
     return FutureBuilder<Map<String, dynamic>>(
       future: initialData(),
       builder: (context, snapshot) {
@@ -50,6 +66,7 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
           );
         } else {
           String logoUrl = snapshot.data?['logo'] ?? 'https://default-logo-url.com/logo.jpg';
+          bool notify = snapshot.data?['notify'] ?? false;
 
           return Scaffold(
             appBar: AppBar(
@@ -73,12 +90,19 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
               ),
               actions: <Widget>[
                 IconButton(
-                  icon: snapshot.data?['notify'] ? const Icon(Icons.notifications) : const Icon(Icons.notification_important_outlined),
+                  icon: AnimatedBuilder(
+                    animation: _colorAnimation,
+                    builder: (context, child) {
+                      return Icon(
+                        notify ? Icons.notifications : Icons.notification_important_outlined,
+                        color: notify ? null : _colorAnimation.value,
+                      );
+                    },
+                  ),
                   onPressed: () {
                     Navigator.pushNamed(context, '/notify');
                   },
                 ),
-
                 IconButton(
                   icon: const Icon(Icons.camera_alt_outlined),
                   onPressed: () {

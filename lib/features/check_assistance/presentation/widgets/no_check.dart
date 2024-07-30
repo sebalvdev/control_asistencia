@@ -37,10 +37,7 @@ class Nocheck extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10),
-              child: SizedBox(
-                height: 240,
-                child: getImage()
-              ),
+              child: SizedBox(height: 240, child: getImage()),
             ),
             const Padding(
               padding: EdgeInsets.only(top: 10),
