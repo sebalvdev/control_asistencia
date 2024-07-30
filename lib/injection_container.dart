@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/api_services/authenticate.dart';
 import 'core/api_services/find.dart';
 import 'core/api_services/get_user_info.dart';
+import 'core/api_services/last_assistance.dart';
 import 'core/api_services/notifications.dart';
 import 'core/api_services/update_signal_id.dart';
 import 'features/qr_scanner/data/datasource/qr_scanner_local_data_source.dart';
@@ -82,6 +83,11 @@ Future<void> init() async {
     () => Message(sharedPreferences: sl()),
   );
 
+  //! Core - AssistanceInfo
+
+  sl.registerLazySingleton<AssistanceInfo>(
+    () => AssistanceInfo(sharedPreferences: sl()),
+  );
 
 
 

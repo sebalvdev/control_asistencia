@@ -1,5 +1,6 @@
-import 'package:control_asistencia_2/features/check_assistance/presentation/widgets/widgets.dart';
-import 'package:control_asistencia_2/widgets/date_today.dart';
+import 'package:control_asistencia_qr/features/check_assistance/presentation/widgets/last_assistance_check.dart';
+import 'package:control_asistencia_qr/features/check_assistance/presentation/widgets/widgets.dart';
+import 'package:control_asistencia_qr/widgets/date_today.dart';
 import 'package:flutter/material.dart';
 
 class Nocheck extends StatelessWidget {
@@ -12,7 +13,10 @@ class Nocheck extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const DateToday(),
+            const Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: DateToday(),
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 10),
               child: Container(
@@ -33,10 +37,11 @@ class Nocheck extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10),
-              child: SizedBox(
-                height: 240,
-                child: getImage()
-              ),
+              child: SizedBox(height: 240, child: getImage()),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: LastAssistanceCheck(),
             ),
           ],
         ),

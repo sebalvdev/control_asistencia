@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/cache_constants.dart';
+import '../constants/domain.dart';
 
 class Authenticate {
 
@@ -17,7 +18,8 @@ class Authenticate {
       return false;
     }
     
-    String key = "https://jcvctechnology.com/$code/api/api.php";
+    // String key = "https://jcvctechnology.com/$code/api/api.php";
+    String key = "https://$domainName/$code/api/api.php";
     final operation = "?authenticate=$codeVerification";
     final url = Uri.parse(key + operation);
     final response = await http.get(url);

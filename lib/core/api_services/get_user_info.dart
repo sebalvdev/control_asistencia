@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/cache_constants.dart';
+import '../constants/domain.dart';
 
 class UserInfo {
 
@@ -16,7 +17,8 @@ class UserInfo {
     final code = sharedPreferences.getString(serverCache);
     final codeVerification = sharedPreferences.getInt(codeCache).toString();
 
-    String key = "https://jcvctechnology.com/$code/api/api.php";
+    // String key = "https://jcvctechnology.com/$code/api/api.php";
+    String key = "https://$domainName/$code/api/api.php";
     final operation = "?get_user_info=$codeVerification";
     final url = Uri.parse(key + operation);
 
@@ -25,6 +27,7 @@ class UserInfo {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
+        print(data);
 
         if (data['success']) {
           await sharedPreferences.setString(userInfoCache, json.encode(data));
@@ -39,16 +42,6 @@ class UserInfo {
       print('Error: $e');
     }
   }
-
-  // Future<Map<String, dynamic>?> getUserInfo() async {
-  //   String? userInfo = sharedPreferences.getString(userInfoCache);
-
-  //   if (userInfo != null) {
-  //     return json.decode(userInfo);
-  //   } else {
-  //     return null;
-  //   }
-  // }
 
   Future<String?> getName() async {
     String? userInfo = sharedPreferences.getString(userInfoCache);
@@ -66,8 +59,7 @@ class UserInfo {
     final code = sharedPreferences.getString(serverCache);
     if (userInfo != null) {
       final map = json.decode(userInfo);
-      final url = "https://jcvctechnology.com/$code/images/users/${map['image_user']}";
-      // print(url);
+      final url = "https://$domainName/$code/images/users/${map['image_user']}";
       return url;
     }
     return null;

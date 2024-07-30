@@ -1,58 +1,171 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: use_build_context_synchronously
 
-import 'dart:convert';
-
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
-class TestScreen extends StatelessWidget {
-   
-  const TestScreen({super.key});
+import '../../injection_container.dart';
+import '../../features/qr_scanner/presentation/bloc/qr_scanner_bloc.dart';
+import '../../features/qr_scanner/presentation/widgets/widgets.dart';
 
-Future<void> getData(String codeVerification) async {
-  String key = "https://jcvctechnology.com/";
-  String filename = "test.php";
-  final url = Uri.parse(key + filename);
+class TestPage extends StatefulWidget {
+  const TestPage({super.key});
 
-  final response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'code_verification': codeVerification,
-      }),
-    );
+  @override
+  State<TestPage> createState() => _QrScannerPageState();
+}
 
-    if (response.statusCode == 200) {
-      final responseData = json.decode(response.body);
-      if (responseData) {
-        print('Authenticated');
-      } else {
-        print('Invalid credentials or verification code');
-      }
-    } else {
-      throw Exception('Failed to authenticate');
-    }
-  }
+class _QrScannerPageState extends State<TestPage> {
+  bool isLoading = false;
+  bool isScanEnabled = true;
+  bool isSuccess = false;
+
+  final MobileScannerController cameraController = MobileScannerController(
+    detectionSpeed: DetectionSpeed.normal,
+    formats: [BarcodeFormat.qrCode],
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text('Control de acceso'),
+        actions: [appBarTorch()],
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            getData('123');
-          },
-          child: const Text('Login'),
-        ),
+      body: buildBody(context),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => cameraController.toggleTorch(),
+        child: const Icon(Icons.flash_on),
+      ),
+    );
+  }
+
+  BlocProvider<QrScannerBloc> buildBody(BuildContext context) {
+    return BlocProvider(
+      create: (_) => sl<QrScannerBloc>(),
+      child: BlocConsumer<QrScannerBloc, QrScannerState>(
+        listener: (context, state) async {
+          if (state is QrScannerLoading && !isLoading) {
+            WidgetsBinding.instance.addPostFrameCallback((_) async {
+              setState(() {
+                isLoading = true;
+              });
+            });
+          }
+
+          if (state is QrScannerSuccess && !isSuccess) {
+            isSuccess = true;
+            WidgetsBinding.instance.addPostFrameCallback((_) async {
+              setState(() {
+                isLoading = false;
+              });
+              await scannedQRDialog(context, state.isValidQr);
+            });
+          }
+        },
+        builder: (context, state) {
+          return Stack(
+            children: [
+              MobileScanner(
+                controller: cameraController,
+                onDetect: (capture) {
+                  if (isScanEnabled) {
+                    setState(() {
+                      isScanEnabled = false;
+                    });
+                    var qrCapture = capture.barcodes[0];
+                    BlocProvider.of<QrScannerBloc>(context).add(
+                      VerifyQrCodeEvent(qrCode: qrCapture.displayValue ?? ''),
+                    );
+                  }
+                },
+                overlay: Container(
+                  decoration: ShapeDecoration(
+                    shape: QrScannerOverlayShape(
+                      borderColor: Colors.white,
+                      borderRadius: 10,
+                      borderLength: 25,
+                      borderWidth: 7.5,
+                      cutOutSize: MediaQuery.of(context).size.width * 0.8,
+                    ),
+                  ),
+                ),
+              ),
+              if (isLoading)
+                Container(
+                  color: Colors.black.withOpacity(0.5),
+                  child: const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 60.0,
+                          width: 60.0,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 20.0),
+                          child: Text(
+                            'Analizando pase de acceso...',
+                            style: TextStyle(color: Colors.white, fontSize: 16.0),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Future<void> scannedQRDialog(BuildContext context, bool isScanCorrect) async {
+    final player = AudioPlayer();
+    await player.play(AssetSource("audio/sound.mp3"));
+    if(isScanCorrect) {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) =>
+            QrScanResultDialog(isScanCorrect: isScanCorrect),
+      ).then((_) {
+        setState(() {
+          isScanEnabled = true;
+          isSuccess = false;
+        });
+      });
+    } else {
+      final message = sl<Message>();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(message.snackBar());
+        setState(() {
+          isScanEnabled = true;
+          isSuccess = false;
+        });
+      }
+    }
+  }
+
+  IconButton appBarTorch() {
+    return IconButton(
+      onPressed: () => cameraController.toggleTorch(),
+      color: Colors.white,
+      iconSize: 32.0,
+      icon: ValueListenableBuilder(
+        valueListenable: cameraController.torchState,
+        builder: (context, state, child) {
+          switch (state) {
+            case TorchState.off:
+              return const Icon(Icons.flash_off, color: Colors.grey);
+            case TorchState.on:
+              return const Icon(Icons.flash_on, color: Colors.yellow);
+          }
+        },
       ),
     );
   }
 }
-
-
-

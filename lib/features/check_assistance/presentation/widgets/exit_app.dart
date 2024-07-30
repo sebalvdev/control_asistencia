@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 
 void exitApp() {
     if (Platform.isAndroid) {
-      SystemNavigator.pop(); // Cierra la aplicación en Android
+      SystemNavigator.pop();
     } else if (Platform.isIOS) {
-      exit(0); // Cierra la aplicación en iOS
+      exit(0);
     }
   }

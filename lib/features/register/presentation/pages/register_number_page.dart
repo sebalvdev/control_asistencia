@@ -1,4 +1,4 @@
-import 'package:control_asistencia_2/features/register/presentation/widgets/number.dart';
+import 'package:control_asistencia_qr/features/register/presentation/widgets/number.dart';
 import 'package:flutter/material.dart';
 import '../../../../injection_container.dart';
 import '../../../../router/app_routes.dart';

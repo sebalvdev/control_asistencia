@@ -12,16 +12,21 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<!-- nombre de la aplicacion -->
 	<key>CFBundleName</key>
-	<string>control_asistencia_2</string>
+	<string>Control Asistencia QR</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<!-- versionname de la aplicacion -->
 	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
+	<string>1.0.0</string>
+	<!-- <string>$(FLUTTER_BUILD_NAME)</string> -->
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<!-- versioncode de la aplicacion -->
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>1</string>
+	<!-- <string>$(FLUTTER_BUILD_NUMBER)</string> -->
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

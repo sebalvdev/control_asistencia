@@ -38,13 +38,13 @@ class _QrScanResultDialogState extends State<QrScanResultDialog>
 
   @override
   Widget build(BuildContext context) {
-    // return widget.isScanCorrect ? correctScanDialog() : inCorrectScanDialog();
-    return correctScanDialog();
+    return widget.isScanCorrect ? correctScanDialog() : inCorrectScanDialog();
+    // return correctScanDialog();
   }
 
   Widget correctScanDialog() {
     return AlertDialog(
-      title: const Center(child: Text('Ingreso correcto')),
+      title: const Center(child: Text('Escaneo correcto')),
       content: SizedBox(
         height: 225,
         child: ScaleTransition(

@@ -12,19 +12,47 @@ class CheckAssistanceScreen extends StatefulWidget {
   State<CheckAssistanceScreen> createState() => _CheckAssistanceScreenState();
 }
 
-class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
+class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Color?> _colorAnimation;
 
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _colorAnimation = ColorTween(
+      begin: Colors.red,
+      end: Colors.transparent,
+    ).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<Map<String, dynamic>> initialData() async {
+    final logo = sl<Logo>();
+    final notification = sl<Notifications>();
+    
+    final urlLogo = await logo.getLogo();
+    final verifyNotify = await notification.verifyNotifications();
+
+    return {
+      'logo': urlLogo,
+      'notify': verifyNotify,
+    };
   }
 
   @override
   Widget build(BuildContext context) {
-    final logo = sl<Logo>();
-
-    return FutureBuilder<String>(
-      future: logo.getLogo(),
+    return FutureBuilder<Map<String, dynamic>>(
+      future: initialData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
@@ -37,14 +65,14 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
             body: Center(child: Text('Error loading logo')),
           );
         } else {
-          String logoUrl = snapshot.data ?? 'https://default-logo-url.com/logo.jpg';
+          String logoUrl = snapshot.data?['logo'] ?? 'https://default-logo-url.com/logo.jpg';
+          bool notify = snapshot.data?['notify'] ?? false;
 
           return Scaffold(
             appBar: AppBar(
               leading: IconButton(
                 icon: const Icon(Icons.exit_to_app),
                 onPressed: () {
-                  // Navigator.popAndPushNamed(context, '/registerNumber');
                   exitApp();
                 },
               ),
@@ -62,7 +90,15 @@ class _CheckAssistanceScreenState extends State<CheckAssistanceScreen> {
               ),
               actions: <Widget>[
                 IconButton(
-                  icon: const Icon(Icons.notifications),
+                  icon: AnimatedBuilder(
+                    animation: _colorAnimation,
+                    builder: (context, child) {
+                      return Icon(
+                        notify ? Icons.notifications : Icons.notification_important_outlined,
+                        color: notify ? null : _colorAnimation.value,
+                      );
+                    },
+                  ),
                   onPressed: () {
                     Navigator.pushNamed(context, '/notify');
                   },
