@@ -6,3 +6,4 @@ export './update_signal_id.dart';
 export './find.dart';
 export './last_assistance.dart';
 export './confirm_api.dart';
+export './get_unique.dart';

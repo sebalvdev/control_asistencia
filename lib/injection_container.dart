@@ -7,6 +7,7 @@ import 'core/api_services/get_user_info.dart';
 import 'core/api_services/last_assistance.dart';
 import 'core/api_services/notifications.dart';
 import 'core/api_services/update_signal_id.dart';
+import 'core/api_services/get_unique.dart';
 import 'features/qr_scanner/data/datasource/qr_scanner_local_data_source.dart';
 import 'features/qr_scanner/data/repositories/qr_scanner_repository_impl.dart';
 import 'features/qr_scanner/domain/repositories/qr_scanner_repository.dart';
@@ -87,6 +88,13 @@ Future<void> init() async {
 
   sl.registerLazySingleton<AssistanceInfo>(
     () => AssistanceInfo(sharedPreferences: sl()),
+  );
+
+  
+  //! Core - GetUnique
+
+  sl.registerLazySingleton<GetUnique>(
+    () => GetUnique(sharedPreferences: sl()),
   );
 
 

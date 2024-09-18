@@ -35,8 +35,8 @@ class Initializer extends StatelessWidget {
 
     final authenticate = sl<Authenticate>();
 
-    int code = await uniqueNumber.getValue();
-    bool verify = await authenticate.verifiCodeApi(code.toString());
+    String code = await uniqueNumber.getValue();
+    bool verify = await authenticate.verifiCodeApi(code);
     return {
       'verify' : verify,
       'compareDates' : compareDates,

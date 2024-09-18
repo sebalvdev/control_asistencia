@@ -21,7 +21,7 @@ class Notifications {
 
   Future<String> fetchNotifications() async {
     final code = sharedPreferences.getString(serverCache);
-    final codeVerification = sharedPreferences.getInt(codeCache).toString();
+    final codeVerification = sharedPreferences.getString(codeCache);
 
     // String key = "https://jcvctechnology.com/$code/api/api.php";
     String key = "https://$domainName/$code/api/api.php";

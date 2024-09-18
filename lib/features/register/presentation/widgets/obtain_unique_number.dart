@@ -1,56 +1,34 @@
-import 'dart:convert';
-import 'dart:math';
-
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/constants/cache_constants.dart';
+import '../../../../core/api_services/api.dart';
+import '../../../../injection_container.dart';
 
 class UniqueNumber {
-  Future<int> getDeviceDetails() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
 
-    int result = _convertHash(androidInfo.fingerprint);
-    // guardar valor unico del dispositivo en cache
-    setValue(result);
+  Future<String> getUnique() async {
+    final uniqueNumber = sl<GetUnique>;
+    final result = await uniqueNumber().obtaunUniqueNumber();
+    
+    // Guardar el valor único en cache
+    await setValue(result);
 
     return result;
   }
 
-  int _convertHash(String texto) {
-    // Obtener el hash del texto como número
-    int hash = _hashString(texto);
-    
-    // Generar un número aleatorio entre basado en el hash
-    Random random = Random(hash);
-    int numeroAleatorio = random.nextInt(999999999);
-
-    return numeroAleatorio;
-  }
-
-  int _hashString(String input) {
-    var bytes = utf8.encode(input); // Codificar el texto en bytes
-    var hash = 0;
-    for (var byte in bytes) {
-      hash = (31 * hash + byte) & 0xffffffff;
-    }
-    return hash;
-  }
-
-  Future<void> setValue(int number) async {
+  Future<void> setValue(String number) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(codeCache, number);
+    await prefs.setString(codeCache, number);
   }
 
-  // obtener el valor unico del dispositivo de cache
-  Future<int> getValue() async {
+  // obtener el valor único del dispositivo de cache
+  Future<String> getValue() async {
     final prefs = await SharedPreferences.getInstance();
-    int? value = prefs.getInt(codeCache);
-    if(value != null) {
+    String? value = prefs.getString(codeCache);
+    if (value != null) {
       return value;
     } else {
-      return 0;
+      return "";
     }
   }
 }

@@ -15,8 +15,9 @@ class Number extends StatelessWidget {
         const DateToday(),
         Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: FutureBuilder<int>(
-            future: uniqueNumber.getDeviceDetails(),
+          child: FutureBuilder<String>(
+            // future: uniqueNumber.getDeviceDetails(),
+            future: uniqueNumber.getUnique(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();

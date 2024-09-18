@@ -62,6 +62,7 @@ class _NoCheckAssistanceScreenState extends State<NoCheckAssistanceScreen> with 
             ),
           );
         } else if (snapshot.hasError) {
+          print(snapshot.error);
           return const Scaffold(
             body: Center(child: Text('Error loading logo')),
           );
