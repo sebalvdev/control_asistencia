@@ -134,31 +134,34 @@ class _QrScannerPageState extends State<QrScannerPage> {
   }
 
   Future<void> scannedQRDialog(BuildContext context, bool isScanCorrect) async {
-    final player = AudioPlayer();
-    await player.play(AssetSource("audio/sound.mp3"));
-    if (isScanCorrect) {
-      await showDialog(
-        context: context,
-        builder: (BuildContext context) =>
-            QrScanResultDialog(isScanCorrect: isScanCorrect),
-      ).then((_) async {
+  final player = AudioPlayer();
+  await player.play(AssetSource("audio/sound.mp3"));
+  if (isScanCorrect) {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) =>
+          QrScanResultDialog(isScanCorrect: isScanCorrect),
+    ).then((_) async {
+      isScanEnabled = true;
+      isSuccess = false;
+    });
+    
+    // Aquí se redirige automáticamente sin esperar que el usuario cierre el diálogo
+    if (mounted) {
+      await Navigator.pushNamed(context, '/check');
+    }
+  } else {
+    final message = sl<Message>();
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(message.snackBar());
+      setState(() {
         isScanEnabled = true;
         isSuccess = false;
       });
-      if (mounted) {
-        await Navigator.pushNamed(context, '/check');
-      }
-    } else {
-      final message = sl<Message>();
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(message.snackBar());
-        setState(() {
-          isScanEnabled = true;
-          isSuccess = false;
-        });
-      }
     }
   }
+}
+
 
   IconButton appBarTorch() {
     return IconButton(

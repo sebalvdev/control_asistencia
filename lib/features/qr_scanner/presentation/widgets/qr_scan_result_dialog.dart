@@ -28,6 +28,13 @@ class _QrScanResultDialogState extends State<QrScanResultDialog>
     );
 
     _animationController.forward(from: 0.2);
+
+    // esperar 2 segundos
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    });
   }
 
   @override
